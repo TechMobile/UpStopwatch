@@ -6,6 +6,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="label_realTime">Real Time</string>
     <string name="label_fakeTime">Fake Time</string>
-    <string name="initialTime">00:00:00</string>
+    <string name="init_minute">00</string>
+    <string name="init_second">00</string>
+    <string name="init_miliseconds">00</string>
+    <string name="lbl_minutes">m</string>
+    <string name="lbl_seconds">s</string>
 
 </resources>
