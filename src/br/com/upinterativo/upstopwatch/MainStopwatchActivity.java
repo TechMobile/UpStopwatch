@@ -18,5 +18,4 @@ public class MainStopwatchActivity extends Activity {
         getMenuInflater().inflate(R.menu.activity_main_stopwatch, menu);
         return true;
     }
-    
 }
