@@ -3,31 +3,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#222"
+    android:gravity="center"
+    android:background="@android:color/background_dark"
     tools:context=".MainStopwatchActivity" >
-    <View 
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="3" />
-    <TextView 
-        android:layout_width="wrap_content"
-        android:layout_height="0dip"
+    <LinearLayout 
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:background="@drawable/watchstop_background"
-        android:layout_weight="3"
-        android:text="00:00:00"
+        android:orientation="horizontal"
         android:layout_gravity="center"
-        android:gravity="center_vertical"
-        android:textColor="#fff"
-        android:textSize="80sp" />
-    <Button android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:text="RESET"
-        android:layout_gravity="center"
-        android:gravity="center_vertical" />
-    <View 
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="3" />
+        android:gravity="center" >
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="00"
+	        android:layout_gravity="center"
+	        android:gravity="center_vertical"
+	        android:textColor="#fff"
+	        android:textSize="80sp" />
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="m"
+	        android:layout_gravity="center"
+	        android:gravity="center_vertical"
+	        android:textColor="#fff"
+	        android:textSize="20sp" />
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="00"
+	        android:layout_gravity="center"
+	        android:gravity="center_vertical"
+	        android:textColor="#fff"
+	        android:textSize="80sp" />
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="s"
+	        android:layout_gravity="center"
+	        android:gravity="center_vertical"
+	        android:textColor="#fff"
+	        android:textSize="20sp" />
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="00"
+	        android:layout_gravity="center"
+	        android:gravity="center_vertical"
+	        android:textColor="#fff"
+	        android:textSize="40sp" />
+    </LinearLayout>
 </LinearLayout>
