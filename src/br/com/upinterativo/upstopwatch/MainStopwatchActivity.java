@@ -1,6 +1,7 @@
 package br.com.upinterativo.upstopwatch;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -42,6 +43,7 @@ public class MainStopwatchActivity extends Activity {
 				float velocityY) {
 			if(velocityX < - 20){
 				Toast.makeText(getApplicationContext(), "Swiiiiiiiiipe", Toast.LENGTH_LONG).show();
+				startActivity(new Intent(getApplicationContext(), Settings.class));
 			}
 			return false;
 		}
