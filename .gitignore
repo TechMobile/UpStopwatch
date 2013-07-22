@@ -1,0 +1,16 @@
+
+gen/br/com/upinterativo/upstopwatch/R.java
+
+*.class
+
+bin/classes/br/com/upinterativo/upstopwatch/R$id.class
+
+bin/classes/br/com/upinterativo/upstopwatch/R$layout.class
+
+bin/classes/br/com/upinterativo/upstopwatch/R$menu.class
+
+bin/classes/br/com/upinterativo/upstopwatch/R$string.class
+
+bin/classes/br/com/upinterativo/upstopwatch/R$style.class
+
+bin/classes/br/com/upinterativo/upstopwatch/R$style.class
