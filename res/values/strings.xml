@@ -11,5 +11,6 @@
     <string name="init_miliseconds">000</string>
     <string name="lbl_minutes">m</string>
     <string name="lbl_seconds">s</string>
+    <string name="app_settings">UpSwotwatch Settings</string>
 
 </resources>

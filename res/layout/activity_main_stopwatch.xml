@@ -7,6 +7,7 @@
     android:background="@android:color/background_dark"
     tools:context=".MainStopwatchActivity" >
     <LinearLayout 
+        android:id="@+id/watchstop_circle_button"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:background="@drawable/watchstop_background"
