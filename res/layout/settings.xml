@@ -109,7 +109,7 @@
         android:textColor="@color/less_button_interaction" />
     
     <CheckBox 
-        android:id="@+id/chDespertador"
+        android:id="@+id/chAlarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btLessFakeTime"
@@ -118,5 +118,22 @@
         android:text="@string/check_alarm"
         android:textColor="#fff"
         android:paddingRight="30dip" />
+    
+    <!--Spinner 
+        android:id="@+id/listSounds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chAlarm"
+        android:layout_marginLeft="15dip"
+        android:layout_marginTop="15dip" /-->
+        
+    <TextView 
+        android:id="@+id/soundSelect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chAlarm"
+        android:layout_marginLeft="15dip"
+        android:layout_marginTop="15dip"
+        android:textColor="#fff" />
     
 </RelativeLayout>

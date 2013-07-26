@@ -27,10 +27,11 @@ public final class R {
         public static final int btLessRealTime=0x7f080004;
         public static final int btPlusFakeTime=0x7f080006;
         public static final int btPlusRealTime=0x7f080002;
-        public static final int chDespertador=0x7f080009;
+        public static final int chAlarm=0x7f080009;
         public static final int lb_fakeTime=0x7f080005;
         public static final int lb_realTime=0x7f080001;
-        public static final int menu_settings=0x7f08000a;
+        public static final int menu_settings=0x7f08000b;
+        public static final int soundSelect=0x7f08000a;
         public static final int vl_fakeTime=0x7f080007;
         public static final int vl_realTime=0x7f080003;
         public static final int watchstop_circle_button=0x7f080000;
