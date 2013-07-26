@@ -1,16 +1,20 @@
 package br.com.upinterativo.upstopwatch;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.TextView;
 
 public class Settings  extends Activity {
 	
@@ -18,13 +22,23 @@ public class Settings  extends Activity {
 	private Button btLessRealTime;
 	private Button btPlusFakeTime;
 	private Button btLessFakeTime;
-	private Spinner listSounds;
+	
 	private CheckBox checkAlarm;
+	
+	private TextView vl_soundSelect;
+	
+	private GestureDetector gd;
+	
+	
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
+        
+        /*Evento para tratativa de gestos*/
+        
+        gd = new GestureDetector(this, simpleGestureDetector);
         
         /*Botoes de interacao com o tempo real*/
         
@@ -36,21 +50,17 @@ public class Settings  extends Activity {
         btPlusFakeTime = (Button)findViewById(R.id.btPlusFakeTime);
         btLessFakeTime = (Button)findViewById(R.id.btLessFakeTime);
         
-        /*DropdownList dos sons disponiveis no aparelho*/
+        /*TextView do som selecionado*/
         
-        listSounds = (Spinner)findViewById(R.id.listSounds);
+        vl_soundSelect = (TextView)findViewById(R.id.soundSelect);
         
         /*Checkbox para validar se tocara alarme*/
         
         checkAlarm = (CheckBox)findViewById(R.id.chAlarm);
         
-        /*Adicionando sons para a lista*/
+        /*Status inicial do texview de som selecionado*/
         
-        this.setSounds(listSounds);
-        
-        /*Status inicial da lista de sons (HIDE)*/
-        
-        listSounds.setVisibility(View.GONE);
+        vl_soundSelect.setVisibility(View.GONE);
         
         /*Definindo cor transparente aos botoes*/
         
@@ -164,26 +174,61 @@ public class Settings  extends Activity {
 				boolean checked = ((CheckBox) v).isChecked();
 				
 				if (checked) {
-					listSounds.setVisibility(View.VISIBLE);
+					getSound();
 				}
 				else {
-					listSounds.setVisibility(View.GONE);
+					vl_soundSelect.setVisibility(View.GONE);
 				}
 			}
 		});
     }
 	
-	private void setSounds(Spinner spinner) {
-		List<String> list = new ArrayList<String>();
-		
-		list.add("TESTE 1");
-		list.add("TESTE 2");
-		list.add("TESTE 3");
-		list.add("TESTE 4");
-		
-		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
-		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		
-		spinner.setAdapter(dataAdapter);
+	private void getSound() {
+		Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+		intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
+		intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select Tone");
+		intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, (Uri) null);
+		this.startActivityForResult(intent, 5);
 	}
+	
+	@Override
+	 protected void onActivityResult(final int requestCode, final int resultCode, final Intent intent)
+	 {
+	     if (resultCode == Activity.RESULT_OK && requestCode == 5)
+	     {
+	          Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+
+	          if (uri != null)
+	          {
+	        	  File file = new File(uri.toString());
+	        	  
+	              this.vl_soundSelect.setText(file.getName());
+	              this.vl_soundSelect.setVisibility(View.VISIBLE);
+	          }
+	          else
+	          {
+	        	  this.vl_soundSelect.setText("");
+	        	  this.checkAlarm.setChecked(false);
+	          }
+	      }            
+	  }
+	
+	@Override
+    public boolean onTouchEvent(MotionEvent event) {
+    	return gd.onTouchEvent(event);
+    }
+
+    SimpleOnGestureListener simpleGestureDetector = new SimpleOnGestureListener(){
+    	
+    	/*Swype para troca de tela (Abre a tela principal)*/
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+			float velocityY) {
+			int dist = (int) (e1.getX() - e2.getX());
+			if(velocityX < - 5000 && dist > 200){
+				startActivity(new Intent(getApplicationContext(), MainStopwatchActivity.class));
+			}
+			
+			return false;
+		}
+    };
 }
