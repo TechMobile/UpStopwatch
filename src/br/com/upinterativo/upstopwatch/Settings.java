@@ -1,10 +1,16 @@
 package br.com.upinterativo.upstopwatch;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 public class Settings  extends Activity {
 	
@@ -12,6 +18,8 @@ public class Settings  extends Activity {
 	private Button btLessRealTime;
 	private Button btPlusFakeTime;
 	private Button btLessFakeTime;
+	private Spinner listSounds;
+	private CheckBox checkAlarm;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +35,22 @@ public class Settings  extends Activity {
         
         btPlusFakeTime = (Button)findViewById(R.id.btPlusFakeTime);
         btLessFakeTime = (Button)findViewById(R.id.btLessFakeTime);
+        
+        /*DropdownList dos sons disponiveis no aparelho*/
+        
+        listSounds = (Spinner)findViewById(R.id.listSounds);
+        
+        /*Checkbox para validar se tocara alarme*/
+        
+        checkAlarm = (CheckBox)findViewById(R.id.chAlarm);
+        
+        /*Adicionando sons para a lista*/
+        
+        this.setSounds(listSounds);
+        
+        /*Status inicial da lista de sons (HIDE)*/
+        
+        listSounds.setVisibility(View.GONE);
         
         /*Definindo cor transparente aos botoes*/
         
@@ -130,5 +154,36 @@ public class Settings  extends Activity {
 				}
 			}
 		});
+        
+        /*Evento de checkbox para validacao de alarme*/
+        
+        checkAlarm.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				boolean checked = ((CheckBox) v).isChecked();
+				
+				if (checked) {
+					listSounds.setVisibility(View.VISIBLE);
+				}
+				else {
+					listSounds.setVisibility(View.GONE);
+				}
+			}
+		});
     }
+	
+	private void setSounds(Spinner spinner) {
+		List<String> list = new ArrayList<String>();
+		
+		list.add("TESTE 1");
+		list.add("TESTE 2");
+		list.add("TESTE 3");
+		list.add("TESTE 4");
+		
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		
+		spinner.setAdapter(dataAdapter);
+	}
 }

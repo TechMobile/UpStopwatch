@@ -15,25 +15,23 @@ public final class R {
         public static final int plus_button_interaction=0x7f060001;
     }
     public static final class drawable {
-        public static final int check=0x7f020000;
-        public static final int checkbox_style=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int plus_button_default=0x7f020003;
-        public static final int plus_button_pressed=0x7f020004;
-        public static final int text_edit=0x7f020005;
-        public static final int uncheck=0x7f020006;
-        public static final int watchstop_background=0x7f020007;
-        public static final int watchstop_background_green=0x7f020008;
+        public static final int ic_launcher=0x7f020000;
+        public static final int plus_button_default=0x7f020001;
+        public static final int plus_button_pressed=0x7f020002;
+        public static final int text_edit=0x7f020003;
+        public static final int watchstop_background=0x7f020004;
+        public static final int watchstop_background_green=0x7f020005;
     }
     public static final class id {
         public static final int btLessFakeTime=0x7f080008;
         public static final int btLessRealTime=0x7f080004;
         public static final int btPlusFakeTime=0x7f080006;
         public static final int btPlusRealTime=0x7f080002;
-        public static final int chDespertador=0x7f080009;
+        public static final int chAlarm=0x7f080009;
         public static final int lb_fakeTime=0x7f080005;
         public static final int lb_realTime=0x7f080001;
-        public static final int menu_settings=0x7f08000a;
+        public static final int listSounds=0x7f08000a;
+        public static final int menu_settings=0x7f08000b;
         public static final int vl_fakeTime=0x7f080007;
         public static final int vl_realTime=0x7f080003;
         public static final int watchstop_circle_button=0x7f080000;
