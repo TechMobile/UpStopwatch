@@ -13,5 +13,6 @@
     <string name="app_settings">Configurações</string>
     <string name="lbl_plus">+</string>
     <string name="lbl_less">-</string>
+    <string name="check_alarm">Emitir alarme ao terminar</string>
 
 </resources>
