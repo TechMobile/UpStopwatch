@@ -3,7 +3,6 @@ package br.com.upinterativo.upstopwatch;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -21,7 +20,7 @@ public class MainStopwatchActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_stopwatch);
-        
+        //startActivity(new Intent(getApplicationContext(), Settings.class));
         gd = new GestureDetector(this, simpleGestureDetector);
     }
 
