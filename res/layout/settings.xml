@@ -16,22 +16,22 @@
         android:textSize="25sp" />
 
     <Button
-        android:id="@+id/btPlusRealTime"
+        android:id="@+id/btLessRealTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lb_realTime"
         android:layout_marginLeft="15dip"
         android:layout_marginTop="10dip"
-        android:text="@string/lbl_plus"
+        android:text="@string/lbl_less"
         android:textSize="30sp"
-        android:textColor="@color/plus_button_interaction" />
+        android:textColor="@color/less_button_interaction" />
 
     <EditText
         android:id="@+id/vl_realTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lb_realTime"
-        android:layout_toRightOf="@+id/btPlusRealTime"
+        android:layout_toRightOf="@+id/btLessRealTime"
         android:ems="1"
         android:inputType="number"
         android:singleLine="true"
@@ -46,15 +46,15 @@
     </EditText>
     
     <Button
-        android:id="@+id/btLessRealTime"
+        android:id="@+id/btPlusRealTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lb_realTime"
         android:layout_toRightOf="@+id/vl_realTime"
         android:layout_marginTop="10dip"
-        android:text="@string/lbl_less"
+        android:text="@string/lbl_plus"
         android:textSize="30sp"
-        android:textColor="@color/less_button_interaction" />
+        android:textColor="@color/plus_button_interaction" />
     
     <TextView
         android:id="@+id/lb_fakeTime"
@@ -68,22 +68,22 @@
         android:textSize="25sp" />
     
     <Button
-        android:id="@+id/btPlusFakeTime"
+        android:id="@+id/btLessFakeTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lb_fakeTime"
         android:layout_marginLeft="15dip"
         android:layout_marginTop="10dip"
-        android:text="@string/lbl_plus"
+        android:text="@string/lbl_less"
         android:textSize="30sp"
-        android:textColor="@color/plus_button_interaction" />
+        android:textColor="@color/less_button_interaction" />
         
     <EditText
         android:id="@+id/vl_fakeTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lb_fakeTime"
-        android:layout_toRightOf="@+id/btPlusFakeTime"
+        android:layout_toRightOf="@+id/btLessFakeTime"
         android:ems="1"
         android:inputType="number"
         android:singleLine="true"
@@ -98,15 +98,15 @@
     </EditText>
     
     <Button
-        android:id="@+id/btLessFakeTime"
+        android:id="@+id/btPlusFakeTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lb_fakeTime"
         android:layout_toRightOf="@+id/vl_fakeTime"
         android:layout_marginTop="10dip"
-        android:text="@string/lbl_less"
+        android:text="@string/lbl_plus"
         android:textSize="30sp"
-        android:textColor="@color/less_button_interaction" />
+        android:textColor="@color/plus_button_interaction" />
     
     <CheckBox 
         android:id="@+id/chAlarm"
@@ -118,14 +118,6 @@
         android:text="@string/check_alarm"
         android:textColor="#fff"
         android:paddingRight="30dip" />
-    
-    <!--Spinner 
-        android:id="@+id/listSounds"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/chAlarm"
-        android:layout_marginLeft="15dip"
-        android:layout_marginTop="15dip" /-->
         
     <TextView 
         android:id="@+id/soundSelect"
