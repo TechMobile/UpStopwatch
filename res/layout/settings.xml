@@ -26,7 +26,7 @@
         android:textSize="30sp"
         android:textColor="@color/less_button_interaction" />
 
-    <EditText
+    <EditText 
         android:id="@+id/vl_realTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,6 +44,17 @@
         android:maxLength="2"
         android:background="@drawable/text_edit">
     </EditText>
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_minutes2"
+        android:textColor="#fff"
+        android:layout_below="@+id/lb_realTime"
+        android:layout_toLeftOf="@+id/btPlusRealTime"
+        android:layout_marginTop="10dip"
+        android:textSize="40sp"
+        />
     
     <Button
         android:id="@+id/btPlusRealTime"
@@ -97,6 +108,17 @@
         android:background="@drawable/text_edit">
     </EditText>
     
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_minutes2"
+        android:textColor="#fff"
+        android:layout_below="@+id/lb_fakeTime"
+        android:layout_toLeftOf="@+id/btPlusFakeTime"
+        android:layout_marginTop="10dip"
+        android:textSize="40sp"
+        />
+    
     <Button
         android:id="@+id/btPlusFakeTime"
         android:layout_width="wrap_content"
@@ -118,7 +140,7 @@
         android:text="@string/check_alarm"
         android:textColor="#fff"
         android:paddingRight="30dip" />
-        
+    
     <TextView 
         android:id="@+id/soundSelect"
         android:layout_width="wrap_content"
