@@ -29,7 +29,8 @@ public class Settings  extends Activity {
 	
 	private GestureDetector gd;
 	
-	
+	public static int realMinutes;
+	public static int fakeMinutes;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
