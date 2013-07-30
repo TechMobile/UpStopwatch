@@ -15,5 +15,6 @@
     <string name="lbl_less">-</string>
     <string name="check_alarm">Emitir alarme ao terminar</string>
     <string name="lbl_minutes2">\'</string>
+    <string name="lbl_seconds2">\'\'</string>
 
 </resources>

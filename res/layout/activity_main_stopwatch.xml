@@ -26,11 +26,11 @@
 	    <TextView 
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="@string/lbl_minutes"
+	        android:text="@string/lbl_minutes2"
 	        android:layout_gravity="center"
 	        android:gravity="center_vertical"
 	        android:textColor="#fff"
-	        android:textSize="20sp" />
+	        android:textSize="90sp" />
 	    <TextView 
 	        android:id="@+id/text_view_seconds"
 	        android:layout_width="wrap_content"
@@ -43,11 +43,11 @@
 	    <TextView 
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="@string/lbl_seconds"
+	        android:text="@string/lbl_seconds2"
 	        android:layout_gravity="center"
 	        android:gravity="center_vertical"
 	        android:textColor="#fff"
-	        android:textSize="20sp" />
+	        android:textSize="90sp" />
 	    <TextView 
 	        android:id="@+id/text_view_mili"
 	        android:layout_width="wrap_content"
@@ -56,6 +56,6 @@
 	        android:layout_gravity="center"
 	        android:gravity="center_vertical"
 	        android:textColor="#fff"
-	        android:textSize="40sp" />
+	        android:textSize="30sp" />
     </LinearLayout>
 </LinearLayout>

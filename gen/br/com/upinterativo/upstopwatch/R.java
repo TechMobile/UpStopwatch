@@ -60,6 +60,7 @@ public final class R {
         public static final int lbl_minutes2=0x7f04000d;
         public static final int lbl_plus=0x7f04000a;
         public static final int lbl_seconds=0x7f040008;
+        public static final int lbl_seconds2=0x7f04000e;
         public static final int menu_settings=0x7f040001;
     }
     public static final class style {
