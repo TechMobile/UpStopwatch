@@ -224,7 +224,7 @@ public class Settings  extends Activity {
 			float velocityY) {
 			int dist = (int) (e1.getX() - e2.getX());
 			if(velocityX < - 5000 && dist > 200){
-				startActivity(new Intent(getApplicationContext(), MainStopwatchActivity.class));
+				finish();
 			}
 			
 			return false;

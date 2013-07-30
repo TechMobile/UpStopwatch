@@ -15,6 +15,7 @@
         android:layout_gravity="center"
         android:gravity="center">
 	    <TextView 
+	        android:id="@+id/text_view_minutes"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/init_minute"
@@ -31,6 +32,7 @@
 	        android:textColor="#fff"
 	        android:textSize="20sp" />
 	    <TextView 
+	        android:id="@+id/text_view_seconds"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/init_second"
@@ -47,6 +49,7 @@
 	        android:textColor="#fff"
 	        android:textSize="20sp" />
 	    <TextView 
+	        android:id="@+id/text_view_mili"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/init_miliseconds"
