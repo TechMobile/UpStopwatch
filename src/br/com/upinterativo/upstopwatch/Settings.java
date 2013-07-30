@@ -72,7 +72,6 @@ public class Settings  extends Activity {
         /*Evento de clique para incrementar minutos do tempo real*/
         
         btPlusRealTime.setOnClickListener(new View.OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				EditText valueRealTime = (EditText)findViewById(R.id.vl_realTime);
@@ -201,8 +200,8 @@ public class Settings  extends Activity {
 	          if (uri != null)
 	          {
 	        	  File file = new File(uri.toString());
-	        	  
-	              this.vl_soundSelect.setText(file.getName());
+	        	  String title = "Tocar‡:\n\t" + file.getName();
+	              this.vl_soundSelect.setText(title);
 	              this.vl_soundSelect.setVisibility(View.VISIBLE);
 	          }
 	          else
@@ -218,7 +217,7 @@ public class Settings  extends Activity {
     	return gd.onTouchEvent(event);
     }
 
-    SimpleOnGestureListener simpleGestureDetector = new SimpleOnGestureListener(){
+    SimpleOnGestureListener simpleGestureDetector = new SimpleOnGestureListener() {
     	
     	/*Swype para troca de tela (Abre a tela principal)*/
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
