@@ -4,6 +4,7 @@ import java.io.File;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,10 +33,32 @@ public class Settings  extends Activity {
 	public static int realMinutes;
 	public static int fakeMinutes;
 	
+	public static boolean tocarAlarme;
+	
+	public static String urlSong;
+	public static String nameSong;
+	
+	
+	public static final String PREFS_NAME = "DataSettings";
+	public static final String REAL_MINUTES = "realMinutes";
+	public static final String FAKE_MINUTES = "fakeMinutes";
+	public static final String TOCAR_ALARME = "tocarAlarme";
+	public static final String URL_SONG = "urlSong";
+	public static final String NAME_SONG = "nameSong";
+	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
+        
+        /*Dados armazenados*/
+        
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        realMinutes = settings.getInt(REAL_MINUTES, 0);
+        fakeMinutes = settings.getInt(FAKE_MINUTES, 0);
+        urlSong = settings.getString(URL_SONG, "");
+        nameSong = settings.getString(NAME_SONG, "");
+        tocarAlarme = settings.getBoolean(TOCAR_ALARME, false);
         
         /*Evento para tratativa de gestos*/
         
@@ -59,9 +82,38 @@ public class Settings  extends Activity {
         
         checkAlarm = (CheckBox)findViewById(R.id.chAlarm);
         
+        /*Status inicial dos valores de tempo*/        
+        
+        if (realMinutes > 0) {
+        	EditText valueRealTime = (EditText)findViewById(R.id.vl_realTime);
+        	if (realMinutes > 9)
+        		valueRealTime.setText(realMinutes);
+        	else {
+        		String value = "0" + realMinutes;
+        		valueRealTime.setText(value);
+        	}
+        }
+        
+        if (fakeMinutes > 0) {
+        	EditText valueFakeTime = (EditText)findViewById(R.id.vl_fakeTime);
+        	if (fakeMinutes > 9)
+    			valueFakeTime.setText(fakeMinutes);
+        	else {
+        		String value = "0" + fakeMinutes;
+        		valueFakeTime.setText(value);
+        	}
+        }
+        
+        /*Status inicial do checkbox para emitir alarme*/
+        
+        checkAlarm.setChecked(tocarAlarme);
+        
         /*Status inicial do texview de som selecionado*/
         
-        vl_soundSelect.setVisibility(View.GONE);
+        if (urlSong.isEmpty())
+        	vl_soundSelect.setVisibility(View.GONE);
+        else
+        	vl_soundSelect.setText(nameSong);
         
         /*Definindo cor transparente aos botoes*/
         
@@ -89,6 +141,12 @@ public class Settings  extends Activity {
 					}
 					
 					valueRealTime.setText(newValue);
+					
+					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putInt(REAL_MINUTES, value);
+					
+					editor.commit();
 				}
 			}
 		});
@@ -113,6 +171,12 @@ public class Settings  extends Activity {
 					}
 					
 					valueRealTime.setText(newValue);
+					
+					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putInt(REAL_MINUTES, value);
+					
+					editor.commit();
 				}
 			}
 		});
@@ -123,8 +187,8 @@ public class Settings  extends Activity {
 			
 			@Override
 			public void onClick(View arg0) {
-				EditText valueRealTime = (EditText)findViewById(R.id.vl_fakeTime);
-				int value = Integer.parseInt(valueRealTime.getText().toString());
+				EditText valueFakeTime = (EditText)findViewById(R.id.vl_fakeTime);
+				int value = Integer.parseInt(valueFakeTime.getText().toString());
 				value++;
 				String newValue = "";
 				
@@ -136,7 +200,13 @@ public class Settings  extends Activity {
 						newValue = "" + value;
 					}
 					
-					valueRealTime.setText(newValue);
+					valueFakeTime.setText(newValue);
+					
+					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putInt(FAKE_MINUTES, value);
+					
+					editor.commit();
 				}
 			}
 		});
@@ -147,8 +217,8 @@ public class Settings  extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				EditText valueRealTime = (EditText)findViewById(R.id.vl_fakeTime);
-				int value = Integer.parseInt(valueRealTime.getText().toString());
+				EditText valueFakeTime = (EditText)findViewById(R.id.vl_fakeTime);
+				int value = Integer.parseInt(valueFakeTime.getText().toString());
 				value--;
 				String newValue = "";
 				
@@ -160,7 +230,13 @@ public class Settings  extends Activity {
 						newValue = "" + value;
 					}
 					
-					valueRealTime.setText(newValue);
+					valueFakeTime.setText(newValue);
+					
+					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putInt(FAKE_MINUTES, value);
+					
+					editor.commit();
 				}
 			}
 		});
@@ -178,6 +254,14 @@ public class Settings  extends Activity {
 				}
 				else {
 					vl_soundSelect.setVisibility(View.GONE);
+					
+					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putString(NAME_SONG, "");
+					editor.putString(URL_SONG, "");
+					editor.putBoolean(TOCAR_ALARME, false);
+					
+					editor.commit();
 				}
 			}
 		});
@@ -204,11 +288,27 @@ public class Settings  extends Activity {
 	        	  String title = "Tocar‡:\n\t" + file.getName();
 	              this.vl_soundSelect.setText(title);
 	              this.vl_soundSelect.setVisibility(View.VISIBLE);
+	             
+	              SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+	              SharedPreferences.Editor editor = settings.edit();
+	              editor.putString(NAME_SONG, file.getName());
+	              editor.putString(URL_SONG, uri.toString());
+	              editor.putBoolean(TOCAR_ALARME, true);
+					
+	              editor.commit();
 	          }
 	          else
 	          {
 	        	  this.vl_soundSelect.setText("");
 	        	  this.checkAlarm.setChecked(false);
+	        	  
+	        	  SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+	        	  SharedPreferences.Editor editor = settings.edit();
+	        	  editor.putString(NAME_SONG, "");
+	        	  editor.putString(URL_SONG, "");
+	        	  editor.putBoolean(TOCAR_ALARME, false);
+				
+	        	  editor.commit();
 	          }
 	      }            
 	  }
@@ -224,7 +324,11 @@ public class Settings  extends Activity {
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
 			int dist = (int) (e1.getX() - e2.getX());
-			if(velocityX < - 5000 && dist > 200){
+			if(velocityX < - 5000 && dist > 200) {
+				SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+				realMinutes = settings.getInt(REAL_MINUTES, 0);
+				fakeMinutes = settings.getInt(FAKE_MINUTES, 0);
+				
 				finish();
 			}
 			
