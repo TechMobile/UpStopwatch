@@ -6,6 +6,7 @@ import java.util.TimerTask;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -22,6 +23,8 @@ public class MainStopwatchActivity extends Activity {
 	private boolean isRunning;
 	private Timer timer;
 	private long elapsedTime;
+	private int realMinutes;
+	private int fakeMinutes;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,13 @@ public class MainStopwatchActivity extends Activity {
         timer = new Timer();
         elapsedTime = 0;
         
+        SharedPreferences settings = getSharedPreferences(Settings.PREFS_NAME, 0);
+        realMinutes = settings.getInt(Settings.REAL_MINUTES, 20);
+        fakeMinutes = settings.getInt(Settings.FAKE_MINUTES, 20);
+//        urlSong = settings.getString(Settings.URL_SONG, "");
+//        nameSong = settings.getString(Settings.NAME_SONG, "");
+//        tocarAlarme = settings.getBoolean(Settings.TOCAR_ALARME, false);
+        
         timer.scheduleAtFixedRate(new TimerTask() {
 			
 			@Override
@@ -41,7 +51,7 @@ public class MainStopwatchActivity extends Activity {
 						
 						@Override
 						public void run() {
-							elapsedTime += 10;
+							elapsedTime += 10*fakeMinutes/realMinutes;
 							TextView milis = (TextView)findViewById(R.id.text_view_mili);
 							TextView seconds = (TextView)findViewById(R.id.text_view_seconds);
 							TextView minutes = (TextView)findViewById(R.id.text_view_minutes);
@@ -49,9 +59,9 @@ public class MainStopwatchActivity extends Activity {
 							int secs = (int) (elapsedTime/1000) % 60;
 							int min = (int) (elapsedTime/(60*1000));
 							
-							milis.setText(String.valueOf(milisecs));
-							seconds.setText(String.valueOf(secs));
-							minutes.setText(String.valueOf(min));
+							milis.setText( String.format("%02d", milisecs/10));
+							seconds.setText(String.format("%02d" , secs));
+							minutes.setText(String.format("%02d", min));
 						}
 					});
 				}

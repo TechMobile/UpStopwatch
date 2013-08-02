@@ -54,8 +54,8 @@ public class Settings  extends Activity {
         /*Dados armazenados*/
         
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        realMinutes = settings.getInt(REAL_MINUTES, 0);
-        fakeMinutes = settings.getInt(FAKE_MINUTES, 0);
+        realMinutes = settings.getInt(REAL_MINUTES, 20);
+        fakeMinutes = settings.getInt(FAKE_MINUTES, 20);
         urlSong = settings.getString(URL_SONG, "");
         nameSong = settings.getString(NAME_SONG, "");
         tocarAlarme = settings.getBoolean(TOCAR_ALARME, false);
