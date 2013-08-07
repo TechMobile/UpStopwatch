@@ -23,20 +23,26 @@ public final class R {
         public static final int watchstop_background_green=0x7f020005;
     }
     public static final class id {
-        public static final int btLessMinFakeTime=0x7f080009;
-        public static final int btLessMinRealTime=0x7f080007;
-        public static final int btPlusMinFakeTime=0x7f08000b;
-        public static final int btPlusMinRealTime=0x7f080006;
-        public static final int chAlarm=0x7f08000c;
-        public static final int lb_fakeTime=0x7f080008;
+        public static final int btLessMinFakeTime=0x7f08000f;
+        public static final int btLessMinRealTime=0x7f080008;
+        public static final int btLessSecFakeTime=0x7f080011;
+        public static final int btLessSecRealTime=0x7f08000a;
+        public static final int btPlusMinFakeTime=0x7f08000e;
+        public static final int btPlusMinRealTime=0x7f080007;
+        public static final int btPlusSecFakeTime=0x7f080010;
+        public static final int btPlusSecRealTime=0x7f080009;
+        public static final int chAlarm=0x7f080012;
+        public static final int lb_fakeTime=0x7f08000b;
         public static final int lb_realTime=0x7f080004;
-        public static final int menu_settings=0x7f08000e;
-        public static final int soundSelect=0x7f08000d;
+        public static final int menu_settings=0x7f080014;
+        public static final int soundSelect=0x7f080013;
         public static final int text_view_mili=0x7f080003;
         public static final int text_view_minutes=0x7f080001;
         public static final int text_view_seconds=0x7f080002;
-        public static final int vl_fakeMinTime=0x7f08000a;
+        public static final int vl_fakeMinTime=0x7f08000c;
+        public static final int vl_fakeSecTime=0x7f08000d;
         public static final int vl_realMinTime=0x7f080005;
+        public static final int vl_realSecTime=0x7f080006;
         public static final int watchstop_circle_button=0x7f080000;
     }
     public static final class layout {

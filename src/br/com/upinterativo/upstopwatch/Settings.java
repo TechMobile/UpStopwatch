@@ -19,10 +19,14 @@ import android.widget.TextView;
 
 public class Settings  extends Activity {
 	
-	private Button btPlusRealTime;
-	private Button btLessRealTime;
-	private Button btPlusFakeTime;
-	private Button btLessFakeTime;
+	private Button btPlusMinRealTime;
+	private Button btLessMinRealTime;
+	private Button btPlusMinFakeTime;
+	private Button btLessMinFakeTime;
+	private Button btPlusSecRealTime;
+	private Button btLessSecRealTime;
+	private Button btPlusSecFakeTime;
+	private Button btLessSecFakeTime;
 	
 	private CheckBox checkAlarm;
 	
@@ -32,6 +36,8 @@ public class Settings  extends Activity {
 	
 	public static int realMinutes;
 	public static int fakeMinutes;
+	public static int realSeconds;
+	public static int fakeSeconds;
 	
 	public static boolean tocarAlarme;
 	
@@ -42,6 +48,10 @@ public class Settings  extends Activity {
 	public static final String PREFS_NAME = "DataSettings";
 	public static final String REAL_MINUTES = "realMinutes";
 	public static final String FAKE_MINUTES = "fakeMinutes";
+	public static final String REAL_SECONDS = "realSeconds";
+	public static final String FAKE_SECONDS = "fakeSeconds";
+	public static final String REAL_TIME = "realTime";
+	public static final String FAKE_TIME = "fakeTime";
 	public static final String TOCAR_ALARME = "tocarAlarme";
 	public static final String URL_SONG = "urlSong";
 	public static final String NAME_SONG = "nameSong";
@@ -56,6 +66,9 @@ public class Settings  extends Activity {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         realMinutes = settings.getInt(REAL_MINUTES, 20);
         fakeMinutes = settings.getInt(FAKE_MINUTES, 20);
+        realSeconds = settings.getInt(REAL_SECONDS, 0);
+        fakeSeconds = settings.getInt(FAKE_SECONDS, 0);
+        
         urlSong = settings.getString(URL_SONG, "");
         nameSong = settings.getString(NAME_SONG, "");
         tocarAlarme = settings.getBoolean(TOCAR_ALARME, false);
@@ -66,13 +79,18 @@ public class Settings  extends Activity {
         
         /*Botoes de interacao com o tempo real*/
         
-         btPlusRealTime = (Button)findViewById(R.id.btPlusMinRealTime);
-         btLessRealTime = (Button)findViewById(R.id.btLessMinRealTime);
+         btPlusMinRealTime = (Button)findViewById(R.id.btPlusMinRealTime);
+         btLessMinRealTime = (Button)findViewById(R.id.btLessMinRealTime);
+         btPlusSecRealTime = (Button)findViewById(R.id.btPlusSecRealTime);
+         btLessSecRealTime = (Button)findViewById(R.id.btLessSecRealTime);
+         
         
         /*Botoes de interacao com o tempo falso*/
         
-        btPlusFakeTime = (Button)findViewById(R.id.btPlusMinFakeTime);
-        btLessFakeTime = (Button)findViewById(R.id.btLessMinFakeTime);
+        btPlusMinFakeTime = (Button)findViewById(R.id.btPlusMinFakeTime);
+        btLessMinFakeTime = (Button)findViewById(R.id.btLessMinFakeTime);
+        btPlusSecFakeTime = (Button)findViewById(R.id.btPlusSecFakeTime);
+        btLessSecFakeTime = (Button)findViewById(R.id.btLessSecFakeTime);
         
         /*TextView do som selecionado*/
         
@@ -85,22 +103,22 @@ public class Settings  extends Activity {
         /*Status inicial dos valores de tempo*/        
         
         if (realMinutes > 0) {
-        	EditText valueRealTime = (EditText)findViewById(R.id.vl_realMinTime);
+        	EditText valueMinRealTime = (EditText)findViewById(R.id.vl_realMinTime);
         	if (realMinutes > 9)
-        		valueRealTime.setText(String.valueOf(realMinutes));
+        		valueMinRealTime.setText(String.valueOf(realMinutes));
         	else {
         		String value = "0" + realMinutes;
-        		valueRealTime.setText(value);
+        		valueMinRealTime.setText(value);
         	}
         }
         
         if (fakeMinutes > 0) {
-        	EditText valueFakeTime = (EditText)findViewById(R.id.vl_fakeMinTime);
+        	EditText valueMinFakeTime = (EditText)findViewById(R.id.vl_fakeMinTime);
         	if (fakeMinutes > 9)
-    			valueFakeTime.setText(String.valueOf(fakeMinutes));
+    			valueMinFakeTime.setText(String.valueOf(fakeMinutes));
         	else {
         		String value = "0" + fakeMinutes;
-        		valueFakeTime.setText(value);
+        		valueMinFakeTime.setText(value);
         	}
         }
         
@@ -117,18 +135,18 @@ public class Settings  extends Activity {
         
         /*Definindo cor transparente aos botoes*/
         
-        btPlusRealTime.setBackgroundColor(0);
-        btLessRealTime.setBackgroundColor(0);
-        btPlusFakeTime.setBackgroundColor(0);
-        btLessFakeTime.setBackgroundColor(0);
+        btPlusMinRealTime.setBackgroundColor(0);
+        btLessMinRealTime.setBackgroundColor(0);
+        btPlusMinFakeTime.setBackgroundColor(0);
+        btLessMinFakeTime.setBackgroundColor(0);
         
         /*Evento de clique para incrementar minutos do tempo real*/
         
-        btPlusRealTime.setOnClickListener(new View.OnClickListener() {
+        btPlusMinRealTime.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				EditText valueRealTime = (EditText)findViewById(R.id.vl_realMinTime);
-				int value = Integer.parseInt(valueRealTime.getText().toString());
+				EditText valueMinRealTime = (EditText)findViewById(R.id.vl_realMinTime);
+				int value = Integer.parseInt(valueMinRealTime.getText().toString());
 				value++;
 				String newValue = "";
 				
@@ -140,11 +158,49 @@ public class Settings  extends Activity {
 						newValue = "" + value;
 					}
 					
-					valueRealTime.setText(newValue);
+					valueMinRealTime.setText(newValue);
 					
 					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 					SharedPreferences.Editor editor = settings.edit();
 					editor.putInt(REAL_MINUTES, value);
+					
+					/*DEFINE TEMPO REAL*/
+					int secondsReal = settings.getInt(REAL_SECONDS, 0);
+					editor.putInt(REAL_TIME, (value * 60000) + (secondsReal * 1000));
+					
+					editor.commit();
+				}
+			}
+		});
+        
+        /*Evento de clique para incrementar segundos do tempo real*/
+        
+        btPlusSecRealTime.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				EditText valueSecRealTime = (EditText)findViewById(R.id.vl_realSecTime);
+				int value = Integer.parseInt(valueSecRealTime.getText().toString());
+				value++;
+				String newValue = "";
+				
+				if (value <= 60) {
+					if (value < 10) {
+						newValue = "0" + value;
+					}
+					else {
+						newValue = "" + value;
+					}
+					
+					valueSecRealTime.setText(newValue);
+					
+					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putInt(REAL_SECONDS, value);
+					
+					/*DEFINE TEMPO REAL*/
+					int minutesReal = settings.getInt(REAL_MINUTES, 0);
+					editor.putInt(REAL_TIME, (value * 1000) + (minutesReal * 60000));
 					
 					editor.commit();
 				}
@@ -153,12 +209,12 @@ public class Settings  extends Activity {
         
         /*Evento de clique para decrementar minutos do tempo real*/
         
-        btLessRealTime.setOnClickListener(new View.OnClickListener() {
+        btLessMinRealTime.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				EditText valueRealTime = (EditText)findViewById(R.id.vl_realMinTime);
-				int value = Integer.parseInt(valueRealTime.getText().toString());
+				EditText valueMinRealTime = (EditText)findViewById(R.id.vl_realMinTime);
+				int value = Integer.parseInt(valueMinRealTime.getText().toString());
 				value--;
 				String newValue = "";
 				
@@ -170,11 +226,49 @@ public class Settings  extends Activity {
 						newValue = "" + value;
 					}
 					
-					valueRealTime.setText(newValue);
+					valueMinRealTime.setText(newValue);
 					
 					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 					SharedPreferences.Editor editor = settings.edit();
 					editor.putInt(REAL_MINUTES, value);
+					
+					/*DEFINE TEMPO REAL*/
+					int secondsReal = settings.getInt(REAL_SECONDS, 0);
+					editor.putInt(REAL_TIME, (value * 60000) + (secondsReal * 1000));
+					
+					editor.commit();
+				}
+			}
+		});
+        
+    	/*Evento de clique para decrementar segundos do tempo real*/
+        
+        btLessSecRealTime.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				EditText valueSecRealTime = (EditText)findViewById(R.id.vl_realSecTime);
+				int value = Integer.parseInt(valueSecRealTime.getText().toString());
+				value--;
+				String newValue = "";
+				
+				if (value >= 0) {
+					if (value < 10) {
+						newValue = "0" + value;
+					}
+					else {
+						newValue = "" + value;
+					}
+					
+					valueSecRealTime.setText(newValue);
+					
+					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putInt(REAL_SECONDS, value);
+					
+					/*DEFINE TEMPO REAL*/
+					int minutesReal = settings.getInt(REAL_MINUTES, 0);
+					editor.putInt(REAL_TIME, (value * 1000) + (minutesReal * 60000));
 					
 					editor.commit();
 				}
@@ -183,12 +277,12 @@ public class Settings  extends Activity {
         
         /*Evento de clique para incrementar minutos do tempo falso*/
         
-        btPlusFakeTime.setOnClickListener(new View.OnClickListener() {
+        btPlusMinFakeTime.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
-				EditText valueFakeTime = (EditText)findViewById(R.id.vl_fakeMinTime);
-				int value = Integer.parseInt(valueFakeTime.getText().toString());
+				EditText valueMinFakeTime = (EditText)findViewById(R.id.vl_fakeMinTime);
+				int value = Integer.parseInt(valueMinFakeTime.getText().toString());
 				value++;
 				String newValue = "";
 				
@@ -200,25 +294,63 @@ public class Settings  extends Activity {
 						newValue = "" + value;
 					}
 					
-					valueFakeTime.setText(newValue);
+					valueMinFakeTime.setText(newValue);
 					
 					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 					SharedPreferences.Editor editor = settings.edit();
 					editor.putInt(FAKE_MINUTES, value);
+					
+					/*DEFINE TEMPO FALSO*/
+					int secondsFake = settings.getInt(FAKE_SECONDS, 0);
+					editor.putInt(FAKE_TIME, (value * 60000) + (secondsFake * 1000));
 					
 					editor.commit();
 				}
 			}
 		});
         
-        /*Evento de clique para decrementar minutos do tempo real*/
+        /*Evento de clique para incrementar segundos do tempo falso*/
         
-        btLessFakeTime.setOnClickListener(new View.OnClickListener() {
+        btPlusSecFakeTime.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				EditText valueSecFakeTime = (EditText)findViewById(R.id.vl_fakeSecTime);
+				int value = Integer.parseInt(valueSecFakeTime.getText().toString());
+				value++;
+				String newValue = "";
+				
+				if (value <= 60) {
+					if (value < 10) {
+						newValue = "0" + value;
+					}
+					else {
+						newValue = "" + value;
+					}
+					
+					valueSecFakeTime.setText(newValue);
+					
+					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putInt(FAKE_SECONDS, value);
+					
+					/*DEFINE TEMPO FALSO*/
+					int minutesFake = settings.getInt(FAKE_MINUTES, 0);
+					editor.putInt(FAKE_TIME, (value * 1000) + (minutesFake * 60000));
+					
+					editor.commit();
+				}
+			}
+		});
+        
+        /*Evento de clique para decrementar minutos do tempo falso*/
+        
+        btLessMinFakeTime.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				EditText valueFakeTime = (EditText)findViewById(R.id.vl_fakeMinTime);
-				int value = Integer.parseInt(valueFakeTime.getText().toString());
+				EditText valueMinFakeTime = (EditText)findViewById(R.id.vl_fakeMinTime);
+				int value = Integer.parseInt(valueMinFakeTime.getText().toString());
 				value--;
 				String newValue = "";
 				
@@ -230,11 +362,49 @@ public class Settings  extends Activity {
 						newValue = "" + value;
 					}
 					
-					valueFakeTime.setText(newValue);
+					valueMinFakeTime.setText(newValue);
 					
 					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 					SharedPreferences.Editor editor = settings.edit();
 					editor.putInt(FAKE_MINUTES, value);
+					
+					/*DEFINE TEMPO FALSO*/
+					int secondsFake = settings.getInt(FAKE_SECONDS, 0);
+					editor.putInt(FAKE_TIME, (value * 60000) + (secondsFake * 1000));
+					
+					editor.commit();
+				}
+			}
+		});
+        
+        /*Evento de clique para decrementar segundos do tempo falso*/
+        
+        btLessSecFakeTime.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				EditText valueSecFakeTime = (EditText)findViewById(R.id.vl_fakeSecTime);
+				int value = Integer.parseInt(valueSecFakeTime.getText().toString());
+				value--;
+				String newValue = "";
+				
+				if (value >= 0) {
+					if (value < 10) {
+						newValue = "0" + value;
+					}
+					else {
+						newValue = "" + value;
+					}
+					
+					valueSecFakeTime.setText(newValue);
+					
+					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putInt(FAKE_SECONDS, value);
+					
+					/*DEFINE TEMPO FALSO*/
+					int minutesFake = settings.getInt(FAKE_MINUTES, 0);
+					editor.putInt(FAKE_TIME, (value * 1000) + (minutesFake * 60000));
 					
 					editor.commit();
 				}
