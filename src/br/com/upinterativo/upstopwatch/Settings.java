@@ -97,7 +97,7 @@ public class Settings  extends Activity {
         if (fakeMinutes > 0) {
         	EditText valueFakeTime = (EditText)findViewById(R.id.vl_fakeMinTime);
         	if (fakeMinutes > 9)
-    			valueFakeTime.setText(fakeMinutes);
+    			valueFakeTime.setText(String.valueOf(fakeMinutes));
         	else {
         		String value = "0" + fakeMinutes;
         		valueFakeTime.setText(value);
