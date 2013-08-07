@@ -87,7 +87,7 @@ public class Settings  extends Activity {
         if (realMinutes > 0) {
         	EditText valueRealTime = (EditText)findViewById(R.id.vl_realMinTime);
         	if (realMinutes > 9)
-        		valueRealTime.setText(realMinutes);
+        		valueRealTime.setText(String.valueOf(realMinutes));
         	else {
         		String value = "0" + realMinutes;
         		valueRealTime.setText(value);
