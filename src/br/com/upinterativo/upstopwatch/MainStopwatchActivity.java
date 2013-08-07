@@ -36,9 +36,6 @@ public class MainStopwatchActivity extends Activity {
         timer = new Timer();
         elapsedTime = 0;
         
-        SharedPreferences settings = getSharedPreferences(Settings.PREFS_NAME, 0);
-        realMinutes = settings.getInt(Settings.REAL_MINUTES, 20);
-        fakeMinutes = settings.getInt(Settings.FAKE_MINUTES, 20);
 //        urlSong = settings.getString(Settings.URL_SONG, "");
 //        nameSong = settings.getString(Settings.NAME_SONG, "");
 //        tocarAlarme = settings.getBoolean(Settings.TOCAR_ALARME, false);
@@ -76,6 +73,9 @@ public class MainStopwatchActivity extends Activity {
 			@SuppressLint("NewApi")
 			@Override
 			public void onClick(View v) {
+				SharedPreferences settings = getSharedPreferences(Settings.PREFS_NAME, 0);
+		        realMinutes = settings.getInt(Settings.REAL_MINUTES, 20);
+		        fakeMinutes = settings.getInt(Settings.FAKE_MINUTES, 20);
 				if(!isRunning)
 				{
 					layoutButton.setBackgroundResource(R.drawable.watchstop_background_green);
