@@ -27,6 +27,7 @@ public class MainStopwatchActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_stopwatch);
+        startActivity(new Intent(getApplicationContext(), Settings.class));
         gd = new GestureDetector(this, simpleGestureDetector);
         isRunning = false;
         timer = new Timer();

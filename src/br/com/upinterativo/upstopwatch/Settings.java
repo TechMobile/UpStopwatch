@@ -66,13 +66,13 @@ public class Settings  extends Activity {
         
         /*Botoes de interacao com o tempo real*/
         
-        btPlusRealTime = (Button)findViewById(R.id.btPlusRealTime);
-        btLessRealTime = (Button)findViewById(R.id.btLessRealTime);
+         btPlusRealTime = (Button)findViewById(R.id.btPlusMinRealTime);
+         btLessRealTime = (Button)findViewById(R.id.btLessMinRealTime);
         
         /*Botoes de interacao com o tempo falso*/
         
-        btPlusFakeTime = (Button)findViewById(R.id.btPlusFakeTime);
-        btLessFakeTime = (Button)findViewById(R.id.btLessFakeTime);
+        btPlusFakeTime = (Button)findViewById(R.id.btPlusMinFakeTime);
+        btLessFakeTime = (Button)findViewById(R.id.btLessMinFakeTime);
         
         /*TextView do som selecionado*/
         
@@ -85,7 +85,7 @@ public class Settings  extends Activity {
         /*Status inicial dos valores de tempo*/        
         
         if (realMinutes > 0) {
-        	EditText valueRealTime = (EditText)findViewById(R.id.vl_realTime);
+        	EditText valueRealTime = (EditText)findViewById(R.id.vl_realMinTime);
         	if (realMinutes > 9)
         		valueRealTime.setText(realMinutes);
         	else {
@@ -95,7 +95,7 @@ public class Settings  extends Activity {
         }
         
         if (fakeMinutes > 0) {
-        	EditText valueFakeTime = (EditText)findViewById(R.id.vl_fakeTime);
+        	EditText valueFakeTime = (EditText)findViewById(R.id.vl_fakeMinTime);
         	if (fakeMinutes > 9)
     			valueFakeTime.setText(fakeMinutes);
         	else {
@@ -127,7 +127,7 @@ public class Settings  extends Activity {
         btPlusRealTime.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				EditText valueRealTime = (EditText)findViewById(R.id.vl_realTime);
+				EditText valueRealTime = (EditText)findViewById(R.id.vl_realMinTime);
 				int value = Integer.parseInt(valueRealTime.getText().toString());
 				value++;
 				String newValue = "";
@@ -157,7 +157,7 @@ public class Settings  extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				EditText valueRealTime = (EditText)findViewById(R.id.vl_realTime);
+				EditText valueRealTime = (EditText)findViewById(R.id.vl_realMinTime);
 				int value = Integer.parseInt(valueRealTime.getText().toString());
 				value--;
 				String newValue = "";
@@ -187,7 +187,7 @@ public class Settings  extends Activity {
 			
 			@Override
 			public void onClick(View arg0) {
-				EditText valueFakeTime = (EditText)findViewById(R.id.vl_fakeTime);
+				EditText valueFakeTime = (EditText)findViewById(R.id.vl_fakeMinTime);
 				int value = Integer.parseInt(valueFakeTime.getText().toString());
 				value++;
 				String newValue = "";
@@ -217,7 +217,7 @@ public class Settings  extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				EditText valueFakeTime = (EditText)findViewById(R.id.vl_fakeTime);
+				EditText valueFakeTime = (EditText)findViewById(R.id.vl_fakeMinTime);
 				int value = Integer.parseInt(valueFakeTime.getText().toString());
 				value--;
 				String newValue = "";

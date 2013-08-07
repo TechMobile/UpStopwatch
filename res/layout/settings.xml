@@ -14,33 +14,20 @@
         android:text="@string/label_realTime"
         android:textColor="#fff"
         android:textSize="25sp" />
-
-    <Button
-        android:id="@+id/btLessRealTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/lb_realTime"
-        android:layout_marginLeft="15dip"
-        android:layout_marginTop="10dip"
-        android:text="@string/lbl_less"
-        android:textSize="30sp"
-        android:textColor="@color/less_button_interaction" />
-
+    
     <EditText 
-        android:id="@+id/vl_realTime"
+        android:id="@+id/vl_realMinTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lb_realTime"
-        android:layout_toRightOf="@+id/btLessRealTime"
         android:ems="1"
         android:inputType="number"
         android:singleLine="true"
         android:text="@string/init_minute"
         android:textColor="#fff"
-        android:textSize="30sp"
-        android:layout_marginTop="15dip"
-        android:layout_marginLeft="8dip"
-        android:layout_marginRight="8dip"
+        android:textSize="60sp"
+        android:layout_marginTop="25dip"
+        android:layout_marginLeft="15dip"
         android:maxLength="2"
         android:background="@drawable/text_edit">
     </EditText>
@@ -51,21 +38,31 @@
         android:text="@string/lbl_minutes2"
         android:textColor="#fff"
         android:layout_below="@+id/lb_realTime"
-        android:layout_toLeftOf="@+id/btPlusRealTime"
+        android:layout_toRightOf="@+id/vl_realMinTime"
         android:layout_marginTop="10dip"
-        android:textSize="40sp"
+        android:textSize="90sp"
         />
     
     <Button
-        android:id="@+id/btPlusRealTime"
+        android:id="@+id/btPlusMinRealTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lb_realTime"
-        android:layout_toRightOf="@+id/vl_realTime"
-        android:layout_marginTop="10dip"
+        android:layout_marginLeft="15dip"
         android:text="@string/lbl_plus"
         android:textSize="30sp"
         android:textColor="@color/plus_button_interaction" />
+    
+    <Button
+        android:id="@+id/btLessMinRealTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vl_realMinTime"
+        android:layout_marginLeft="15dip"
+        android:layout_marginTop="-35dip"
+        android:text="@string/lbl_less"
+        android:textSize="30sp"
+        android:textColor="@color/less_button_interaction" />
     
     <TextView
         android:id="@+id/lb_fakeTime"
@@ -73,13 +70,13 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dip"
         android:layout_marginTop="15dip"
-        android:layout_below="@+id/btLessRealTime"
+        android:layout_below="@+id/btLessMinRealTime"
         android:text="@string/label_fakeTime"
         android:textColor="#fff"
         android:textSize="25sp" />
     
     <Button
-        android:id="@+id/btLessFakeTime"
+        android:id="@+id/btLessMinFakeTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lb_fakeTime"
@@ -90,11 +87,11 @@
         android:textColor="@color/less_button_interaction" />
         
     <EditText
-        android:id="@+id/vl_fakeTime"
+        android:id="@+id/vl_fakeMinTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lb_fakeTime"
-        android:layout_toRightOf="@+id/btLessFakeTime"
+        android:layout_toRightOf="@+id/btLessMinFakeTime"
         android:ems="1"
         android:inputType="number"
         android:singleLine="true"
@@ -114,17 +111,17 @@
         android:text="@string/lbl_minutes2"
         android:textColor="#fff"
         android:layout_below="@+id/lb_fakeTime"
-        android:layout_toLeftOf="@+id/btPlusFakeTime"
+        android:layout_toLeftOf="@+id/btPlusMinFakeTime"
         android:layout_marginTop="10dip"
         android:textSize="40sp"
         />
     
     <Button
-        android:id="@+id/btPlusFakeTime"
+        android:id="@+id/btPlusMinFakeTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lb_fakeTime"
-        android:layout_toRightOf="@+id/vl_fakeTime"
+        android:layout_toRightOf="@+id/vl_fakeMinTime"
         android:layout_marginTop="10dip"
         android:text="@string/lbl_plus"
         android:textSize="30sp"
@@ -134,7 +131,7 @@
         android:id="@+id/chAlarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btLessFakeTime"
+        android:layout_below="@+id/btLessMinFakeTime"
         android:layout_marginLeft="15dip"
         android:layout_marginTop="15dip"
         android:text="@string/check_alarm"
