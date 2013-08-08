@@ -7,6 +7,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -21,10 +24,12 @@ public class MainStopwatchActivity extends Activity {
 	private GestureDetector gd;
 	private LinearLayout layoutButton;
 	private boolean isRunning;
+	private boolean isPlayingSound;
 	private Timer timer;
 	private long elapsedTime;
-	private int realMinutes;
-	private int fakeMinutes;
+	private int realTime;
+	private int fakeTime;
+	private Ringtone r;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,7 @@ public class MainStopwatchActivity extends Activity {
         isRunning = false;
         timer = new Timer();
         elapsedTime = 0;
+        isPlayingSound = false;
         
 //        urlSong = settings.getString(Settings.URL_SONG, "");
 //        nameSong = settings.getString(Settings.NAME_SONG, "");
@@ -49,17 +55,15 @@ public class MainStopwatchActivity extends Activity {
 						
 						@Override
 						public void run() {
-							elapsedTime += 10*fakeMinutes/realMinutes;
-							TextView milis = (TextView)findViewById(R.id.text_view_mili);
-							TextView seconds = (TextView)findViewById(R.id.text_view_seconds);
-							TextView minutes = (TextView)findViewById(R.id.text_view_minutes);
-							int milisecs = (int) (elapsedTime % 1000);
-							int secs = (int) (elapsedTime/1000) % 60;
-							int min = (int) (elapsedTime/(60*1000));
-							
-							milis.setText( String.format("%02d", milisecs/10));
-							seconds.setText(String.format("%02d" , secs));
-							minutes.setText(String.format("%02d", min));
+							elapsedTime += 10*fakeTime/realTime;							
+							setTimeText();
+							if(elapsedTime == fakeTime){
+								isRunning = false;
+								Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+								r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+								r.play();
+								isPlayingSound = true;
+							}
 						}
 					});
 				}
@@ -74,17 +78,24 @@ public class MainStopwatchActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				SharedPreferences settings = getSharedPreferences(Settings.PREFS_NAME, 0);
-		        realMinutes = settings.getInt(Settings.REAL_MINUTES, 20);
-		        fakeMinutes = settings.getInt(Settings.FAKE_MINUTES, 20);
-				if(!isRunning)
-				{
-					layoutButton.setBackgroundResource(R.drawable.watchstop_background_green);
-					isRunning = true;
-				} else {
-					layoutButton.setBackgroundResource(R.drawable.watchstop_background);
-					isRunning = false;
-				}
-				
+		        realTime = settings.getInt(Settings.REAL_TIME, 20*60*1000);
+		        fakeTime = settings.getInt(Settings.FAKE_TIME, 20*60*1000);
+		        if(!isPlayingSound){
+					if(!isRunning)
+					{
+						layoutButton.setBackgroundResource(R.drawable.watchstop_background_green);
+						isRunning = true;
+					} else {
+						layoutButton.setBackgroundResource(R.drawable.watchstop_background);
+						isRunning = false;
+					}
+		        } else {
+		        	r.stop();
+		        	isPlayingSound = false;
+		        	elapsedTime = 0;
+		        	setTimeText();
+		        	layoutButton.setBackgroundResource(R.drawable.watchstop_background);
+		        }
 			}
 		});
         
@@ -107,6 +118,18 @@ public class MainStopwatchActivity extends Activity {
 		});
     }
 
+    private void setTimeText(){
+    	int milisecs = (int) (elapsedTime % 1000);
+		int secs = (int) (elapsedTime/1000) % 60;
+		int min = (int) (elapsedTime/(60*1000));
+		TextView milis = (TextView)findViewById(R.id.text_view_mili);
+		TextView seconds = (TextView)findViewById(R.id.text_view_seconds);
+		TextView minutes = (TextView)findViewById(R.id.text_view_minutes);
+		
+		milis.setText( String.format("%02d", milisecs/10));
+		seconds.setText(String.format("%02d" , secs));
+		minutes.setText(String.format("%02d", min));
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
