@@ -64,7 +64,7 @@ public class Settings  extends Activity {
         /*Dados armazenados*/
         
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        realMinutes = settings.getInt(REAL_MINUTES, 20);
+        realMinutes = settings.getInt(REAL_MINUTES, 1);
         fakeMinutes = settings.getInt(FAKE_MINUTES, 20);
         realSeconds = settings.getInt(REAL_SECONDS, 0);
         fakeSeconds = settings.getInt(FAKE_SECONDS, 0);
