@@ -30,6 +30,8 @@ public class MainStopwatchActivity extends Activity {
 	private int realTime;
 	private int fakeTime;
 	private Ringtone r;
+	private String uriSong;
+	private boolean tocarAlarme;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +44,6 @@ public class MainStopwatchActivity extends Activity {
         elapsedTime = 0;
         isPlayingSound = false;
         
-//        urlSong = settings.getString(Settings.URL_SONG, "");
-//        nameSong = settings.getString(Settings.NAME_SONG, "");
-//        tocarAlarme = settings.getBoolean(Settings.TOCAR_ALARME, false);
         
         timer.scheduleAtFixedRate(new TimerTask() {
 			
@@ -59,10 +58,10 @@ public class MainStopwatchActivity extends Activity {
 							setTimeText();
 							if(elapsedTime == fakeTime){
 								isRunning = false;
-								Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-								r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-								r.play();
-								isPlayingSound = true;
+								if(tocarAlarme){
+									r.play();
+									isPlayingSound = true;
+								}
 							}
 						}
 					});
@@ -80,6 +79,9 @@ public class MainStopwatchActivity extends Activity {
 				SharedPreferences settings = getSharedPreferences(Settings.PREFS_NAME, 0);
 		        realTime = settings.getInt(Settings.REAL_TIME, 20*60*1000);
 		        fakeTime = settings.getInt(Settings.FAKE_TIME, 20*60*1000);
+		        uriSong = settings.getString(Settings.URL_SONG, "");
+		        tocarAlarme = settings.getBoolean(Settings.TOCAR_ALARME, false);
+		        r = RingtoneManager.getRingtone(getApplicationContext(), Uri.parse(uriSong));
 		        if(!isPlayingSound){
 					if(!isRunning)
 					{
