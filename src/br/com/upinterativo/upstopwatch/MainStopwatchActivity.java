@@ -60,8 +60,8 @@ public class MainStopwatchActivity extends Activity {
 								isRunning = false;
 								if(tocarAlarme){
 									r.play();
-									isPlayingSound = true;
 								}
+								isPlayingSound = true;
 							}
 						}
 					});
@@ -92,7 +92,8 @@ public class MainStopwatchActivity extends Activity {
 						isRunning = false;
 					}
 		        } else {
-		        	r.stop();
+		        	if(tocarAlarme)
+		        		r.stop();
 		        	isPlayingSound = false;
 		        	elapsedTime = 0;
 		        	setTimeText();
