@@ -120,6 +120,28 @@ public class Settings  extends Activity {
         	}
         }
         
+        if (realSeconds > 0) {
+        	TextView valueSecRealTime = (TextView)findViewById(R.id.vl_realSecTime);
+        	if (realSeconds > 9) {
+        		valueSecRealTime.setText(String.valueOf(realSeconds));
+        	}
+        	else {
+        		String value = "0" + realSeconds;
+        		valueSecRealTime.setText(value);
+        	}
+        }
+        
+        if (fakeSeconds > 0) {
+        	TextView valueSecFakeTime = (TextView)findViewById(R.id.vl_fakeSecTime);
+        	if (fakeSeconds > 9) {
+        		valueSecFakeTime.setText(String.valueOf(fakeSeconds));
+        	}
+        	else {
+        		String value = "0" + fakeSeconds;
+        		valueSecFakeTime.setText(value);
+        	}
+        }
+        
         /*Status inicial do checkbox para emitir alarme*/
         
         checkAlarm.setChecked(tocarAlarme);
