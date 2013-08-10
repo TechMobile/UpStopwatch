@@ -21,6 +21,13 @@ import android.widget.TextView;
 
 public class MainStopwatchActivity extends Activity {
 
+	protected static String IS_RUNNING = "isRunning";
+	protected static String IS_PLAYING_SOUND = "isPlayingSound";
+	protected static String ELAPSED_TIME = "elapsedTime";
+	protected static String REAL_TIME = "realTime";
+	protected static String FAKE_TIME = "fakeTime";
+	protected static String URI_SONG = "uriSong";
+	protected static String TOCAR_ALARME = "tocarAlarme";
 	private GestureDetector gd;
 	private LinearLayout layoutButton;
 	private boolean isRunning;
@@ -37,16 +44,14 @@ public class MainStopwatchActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_stopwatch);
-        startActivity(new Intent(getApplicationContext(), Settings.class));
         gd = new GestureDetector(this, simpleGestureDetector);
         isRunning = false;
         timer = new Timer();
         elapsedTime = 0;
         isPlayingSound = false;
         
-        
         timer.scheduleAtFixedRate(new TimerTask() {
-			
+				
 			@Override
 			public void run() {
 				if(isRunning){
@@ -69,7 +74,6 @@ public class MainStopwatchActivity extends Activity {
 				
 			}
 		}, 0, 10);
-        
         layoutButton = (LinearLayout)findViewById(R.id.watchstop_circle_button);
         layoutButton.setOnClickListener(new View.OnClickListener() {
 			
@@ -121,17 +125,53 @@ public class MainStopwatchActivity extends Activity {
 		});
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+    	super.onSaveInstanceState(outState);
+    	outState.putBoolean(IS_RUNNING, isRunning);
+    	outState.putBoolean(IS_PLAYING_SOUND, isPlayingSound);
+    	outState.putLong(ELAPSED_TIME, elapsedTime);
+    	outState.putInt(FAKE_TIME, fakeTime);
+    	outState.putInt(REAL_TIME, realTime);
+    	outState.putString(URI_SONG, uriSong);
+    	outState.putBoolean(TOCAR_ALARME, tocarAlarme);
+    }
+    
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    	super.onRestoreInstanceState(savedInstanceState);
+    	
+    	isRunning = savedInstanceState.getBoolean(IS_RUNNING);
+    	isPlayingSound = savedInstanceState.getBoolean(IS_PLAYING_SOUND);
+    	elapsedTime = savedInstanceState.getLong(ELAPSED_TIME);
+    	fakeTime = savedInstanceState.getInt(FAKE_TIME);
+    	realTime = savedInstanceState.getInt(REAL_TIME);
+    	tocarAlarme = savedInstanceState.getBoolean(TOCAR_ALARME);
+    	uriSong = savedInstanceState.getString(URI_SONG);
+    	r = RingtoneManager.getRingtone(getApplicationContext(), Uri.parse(uriSong));
+    }
+    
+    @Override
+    protected void onDestroy() {
+    	super.onDestroy();
+    	timer.cancel();
+    }
+    
     private void setTimeText(){
     	int milisecs = (int) (elapsedTime % 1000);
+    	if(isPlayingSound){
+			elapsedTime -= milisecs;
+			milisecs = 0;
+		}
 		int secs = (int) (elapsedTime/1000) % 60;
 		int min = (int) (elapsedTime/(60*1000));
 		TextView milis = (TextView)findViewById(R.id.text_view_mili);
 		TextView seconds = (TextView)findViewById(R.id.text_view_seconds);
 		TextView minutes = (TextView)findViewById(R.id.text_view_minutes);
-		
 		milis.setText( String.format("%02d", milisecs/10));
 		seconds.setText(String.format("%02d" , secs));
 		minutes.setText(String.format("%02d", min));
+		
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

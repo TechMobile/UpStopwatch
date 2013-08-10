@@ -1,20 +1,18 @@
 package br.com.upinterativo.upstopwatch;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.TextView;
 
 public class Settings  extends Activity {
@@ -103,7 +101,7 @@ public class Settings  extends Activity {
         /*Status inicial dos valores de tempo*/        
         
         if (realMinutes > 0) {
-        	EditText valueMinRealTime = (EditText)findViewById(R.id.vl_realMinTime);
+        	TextView valueMinRealTime = (TextView)findViewById(R.id.vl_realMinTime);
         	if (realMinutes > 9)
         		valueMinRealTime.setText(String.valueOf(realMinutes));
         	else {
@@ -113,7 +111,7 @@ public class Settings  extends Activity {
         }
         
         if (fakeMinutes > 0) {
-        	EditText valueMinFakeTime = (EditText)findViewById(R.id.vl_fakeMinTime);
+        	TextView valueMinFakeTime = (TextView)findViewById(R.id.vl_fakeMinTime);
         	if (fakeMinutes > 9)
     			valueMinFakeTime.setText(String.valueOf(fakeMinutes));
         	else {
@@ -139,13 +137,17 @@ public class Settings  extends Activity {
         btLessMinRealTime.setBackgroundColor(0);
         btPlusMinFakeTime.setBackgroundColor(0);
         btLessMinFakeTime.setBackgroundColor(0);
+        btPlusSecFakeTime.setBackgroundColor(0);
+        btPlusSecRealTime.setBackgroundColor(0);
+        btLessSecFakeTime.setBackgroundColor(0);
+        btLessSecRealTime.setBackgroundColor(0);
         
         /*Evento de clique para incrementar minutos do tempo real*/
         
         btPlusMinRealTime.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				EditText valueMinRealTime = (EditText)findViewById(R.id.vl_realMinTime);
+				TextView valueMinRealTime = (TextView)findViewById(R.id.vl_realMinTime);
 				int value = Integer.parseInt(valueMinRealTime.getText().toString());
 				value++;
 				String newValue = "";
@@ -179,7 +181,7 @@ public class Settings  extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				EditText valueSecRealTime = (EditText)findViewById(R.id.vl_realSecTime);
+				TextView valueSecRealTime = (TextView)findViewById(R.id.vl_realSecTime);
 				int value = Integer.parseInt(valueSecRealTime.getText().toString());
 				value++;
 				String newValue = "";
@@ -213,7 +215,7 @@ public class Settings  extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				EditText valueMinRealTime = (EditText)findViewById(R.id.vl_realMinTime);
+				TextView valueMinRealTime = (TextView)findViewById(R.id.vl_realMinTime);
 				int value = Integer.parseInt(valueMinRealTime.getText().toString());
 				value--;
 				String newValue = "";
@@ -247,7 +249,7 @@ public class Settings  extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				EditText valueSecRealTime = (EditText)findViewById(R.id.vl_realSecTime);
+				TextView valueSecRealTime = (TextView)findViewById(R.id.vl_realSecTime);
 				int value = Integer.parseInt(valueSecRealTime.getText().toString());
 				value--;
 				String newValue = "";
@@ -281,7 +283,7 @@ public class Settings  extends Activity {
 			
 			@Override
 			public void onClick(View arg0) {
-				EditText valueMinFakeTime = (EditText)findViewById(R.id.vl_fakeMinTime);
+				TextView valueMinFakeTime = (TextView)findViewById(R.id.vl_fakeMinTime);
 				int value = Integer.parseInt(valueMinFakeTime.getText().toString());
 				value++;
 				String newValue = "";
@@ -315,7 +317,7 @@ public class Settings  extends Activity {
 			
 			@Override
 			public void onClick(View arg0) {
-				EditText valueSecFakeTime = (EditText)findViewById(R.id.vl_fakeSecTime);
+				TextView valueSecFakeTime = (TextView)findViewById(R.id.vl_fakeSecTime);
 				int value = Integer.parseInt(valueSecFakeTime.getText().toString());
 				value++;
 				String newValue = "";
@@ -349,7 +351,7 @@ public class Settings  extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				EditText valueMinFakeTime = (EditText)findViewById(R.id.vl_fakeMinTime);
+				TextView valueMinFakeTime = (TextView)findViewById(R.id.vl_fakeMinTime);
 				int value = Integer.parseInt(valueMinFakeTime.getText().toString());
 				value--;
 				String newValue = "";
@@ -383,7 +385,7 @@ public class Settings  extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				EditText valueSecFakeTime = (EditText)findViewById(R.id.vl_fakeSecTime);
+				TextView valueSecFakeTime = (TextView)findViewById(R.id.vl_fakeSecTime);
 				int value = Integer.parseInt(valueSecFakeTime.getText().toString());
 				value--;
 				String newValue = "";
@@ -454,14 +456,14 @@ public class Settings  extends Activity {
 
 	          if (uri != null)
 	          {
-	        	  File file = new File(uri.toString());
-	        	  String title = "Tocar‡:\n\t" + file.getName();
-	              this.vl_soundSelect.setText(title);
+	        	  Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
+	        	  String ringToneName = ringtone.getTitle(this);
+	              this.vl_soundSelect.setText(ringToneName);
 	              this.vl_soundSelect.setVisibility(View.VISIBLE);
 	             
 	              SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 	              SharedPreferences.Editor editor = settings.edit();
-	              editor.putString(NAME_SONG, file.getName());
+	              editor.putString(NAME_SONG, ringToneName);
 	              editor.putString(URL_SONG, uri.toString());
 	              editor.putBoolean(TOCAR_ALARME, true);
 					

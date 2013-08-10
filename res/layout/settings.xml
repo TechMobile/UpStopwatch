@@ -15,7 +15,7 @@
         android:textColor="#fff"
         android:textSize="25sp" />
     
-    <EditText 
+    <TextView 
         android:id="@+id/vl_realMinTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         android:layout_marginLeft="15dip"
         android:maxLength="2"
         android:background="@drawable/text_edit">
-    </EditText>
+    </TextView>
     
     <TextView
         android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
         android:textSize="90sp"
         />
     
-    <EditText 
+    <TextView 
         android:id="@+id/vl_realSecTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
         android:layout_marginLeft="15dip"
         android:maxLength="2"
         android:background="@drawable/text_edit">
-    </EditText>
+    </TextView>
     
     <TextView
         android:layout_width="wrap_content"
@@ -127,7 +127,7 @@
         android:textColor="#fff"
         android:textSize="25sp" />
         
-    <EditText
+    <TextView
         android:id="@+id/vl_fakeMinTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
         android:layout_marginLeft="15dip"
         android:maxLength="2"
         android:background="@drawable/text_edit">
-    </EditText>
+    </TextView>
     
     <TextView 
         android:layout_width="wrap_content"
@@ -155,7 +155,7 @@
         android:textSize="90sp"
         />
     
-    <EditText
+    <TextView
         android:id="@+id/vl_fakeSecTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -171,7 +171,7 @@
         android:layout_marginLeft="15dip"
         android:maxLength="2"
         android:background="@drawable/text_edit">
-    </EditText>
+    </TextView>
     
     <TextView 
         android:layout_width="wrap_content"
