@@ -1,5 +1,6 @@
 package br.com.upinterativo.upstopwatch;
 
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -28,14 +29,23 @@ public class MainStopwatchActivity extends Activity {
 	protected static String FAKE_TIME = "fakeTime";
 	protected static String URI_SONG = "uriSong";
 	protected static String TOCAR_ALARME = "tocarAlarme";
+	protected static String START_TIME = "startTime";
+	protected static String PAUSED_TIME = "pausedTime";
+	protected static String IS_PAUSED = "isPaused";
+	protected static String LAST_PAUSED = "lastPaused";
+	
 	private GestureDetector gd;
 	private LinearLayout layoutButton;
 	private boolean isRunning;
 	private boolean isPlayingSound;
 	private Timer timer;
 	private long elapsedTime;
+	private long startTime;
 	private long realTime;
 	private long fakeTime;
+	private long lastPaused;
+	private long pausedTime;
+	private boolean isPaused;
 	private Ringtone r;
 	private String uriSong;
 	private boolean tocarAlarme;
@@ -46,8 +56,12 @@ public class MainStopwatchActivity extends Activity {
         setContentView(R.layout.activity_main_stopwatch);
         gd = new GestureDetector(this, simpleGestureDetector);
         isRunning = false;
+        isPaused = false;
+        lastPaused = 0;
+        pausedTime = 0;
         timer = new Timer();
         elapsedTime = 0;
+        startTime = 0;
         isPlayingSound = false;
         
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -59,14 +73,23 @@ public class MainStopwatchActivity extends Activity {
 						
 						@Override
 						public void run() {
-							elapsedTime += 10*fakeTime/realTime;							
-							setTimeText();
-							if(elapsedTime == fakeTime){
-								isRunning = false;
-								if(tocarAlarme){
-									r.play();
+							if(isRunning){
+								Date date = new Date();
+								long timeNow = date.getTime();
+								if(!isPaused)
+									elapsedTime = (timeNow - startTime)*fakeTime/realTime - pausedTime;
+								else {
+									pausedTime += (timeNow - lastPaused)*fakeTime/realTime;
+									lastPaused = timeNow;
 								}
-								isPlayingSound = true;
+								setTimeText();
+								if(elapsedTime >= fakeTime){
+									isRunning = false;
+									if(tocarAlarme){
+										r.play();
+									}
+									isPlayingSound = true;
+								}
 							}
 						}
 					});
@@ -87,19 +110,24 @@ public class MainStopwatchActivity extends Activity {
 		        tocarAlarme = settings.getBoolean(Settings.TOCAR_ALARME, false);
 		        r = RingtoneManager.getRingtone(getApplicationContext(), Uri.parse(uriSong));
 		        if(!isPlayingSound){
+		        	Date date = new Date();
 					if(!isRunning)
 					{
 						layoutButton.setBackgroundResource(R.drawable.watchstop_background_green);
+						startTime = date.getTime();
+						pausedTime = 0;
 						isRunning = true;
 					} else {
 						layoutButton.setBackgroundResource(R.drawable.watchstop_background);
-						isRunning = false;
+						lastPaused = date.getTime();
+						isPaused = isPaused ? false : true;
 					}
 		        } else {
 		        	if(tocarAlarme)
 		        		r.stop();
 		        	isPlayingSound = false;
 		        	elapsedTime = 0;
+		        	pausedTime = 0;
 		        	setTimeText();
 		        	layoutButton.setBackgroundResource(R.drawable.watchstop_background);
 		        }
@@ -110,8 +138,10 @@ public class MainStopwatchActivity extends Activity {
 			
 			@Override
 			public boolean onLongClick(View v) {
-				if(!isRunning){
+				if(isPaused){
+					isRunning = isPaused = false;
 					elapsedTime = 0;
+					pausedTime = 0;
 					TextView milis = (TextView)findViewById(R.id.text_view_mili);
 					TextView seconds = (TextView)findViewById(R.id.text_view_seconds);
 					TextView minutes = (TextView)findViewById(R.id.text_view_minutes);
@@ -135,6 +165,10 @@ public class MainStopwatchActivity extends Activity {
     	outState.putLong(REAL_TIME, realTime);
     	outState.putString(URI_SONG, uriSong);
     	outState.putBoolean(TOCAR_ALARME, tocarAlarme);
+    	outState.putBoolean(IS_PAUSED, isPaused);
+    	outState.putLong(START_TIME, startTime);
+    	outState.putLong(PAUSED_TIME, pausedTime);
+    	outState.putLong(LAST_PAUSED, lastPaused);
     }
     
     @Override
@@ -147,8 +181,13 @@ public class MainStopwatchActivity extends Activity {
     	fakeTime = savedInstanceState.getLong(FAKE_TIME);
     	realTime = savedInstanceState.getLong(REAL_TIME);
     	tocarAlarme = savedInstanceState.getBoolean(TOCAR_ALARME);
+    	isPaused = savedInstanceState.getBoolean(IS_PAUSED);
+    	startTime = savedInstanceState.getLong(START_TIME);
+    	pausedTime = savedInstanceState.getLong(PAUSED_TIME);
+    	lastPaused = savedInstanceState.getLong(LAST_PAUSED);
     	uriSong = savedInstanceState.getString(URI_SONG);
-    	r = RingtoneManager.getRingtone(getApplicationContext(), Uri.parse(uriSong));
+    	if(uriSong != null && !uriSong.isEmpty())
+    		r = RingtoneManager.getRingtone(getApplicationContext(), Uri.parse(uriSong));
     }
     
     @Override
