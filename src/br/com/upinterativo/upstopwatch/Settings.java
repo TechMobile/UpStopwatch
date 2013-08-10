@@ -139,6 +139,10 @@ public class Settings  extends Activity {
         btLessMinRealTime.setBackgroundColor(0);
         btPlusMinFakeTime.setBackgroundColor(0);
         btLessMinFakeTime.setBackgroundColor(0);
+        btPlusSecRealTime.setBackgroundColor(0);
+        btLessSecRealTime.setBackgroundColor(0);
+        btPlusSecFakeTime.setBackgroundColor(0);
+        btLessSecFakeTime.setBackgroundColor(0);
         
         /*Evento de clique para incrementar minutos do tempo real*/
         
