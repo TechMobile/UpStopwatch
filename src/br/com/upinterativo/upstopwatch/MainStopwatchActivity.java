@@ -34,8 +34,8 @@ public class MainStopwatchActivity extends Activity {
 	private boolean isPlayingSound;
 	private Timer timer;
 	private long elapsedTime;
-	private int realTime;
-	private int fakeTime;
+	private long realTime;
+	private long fakeTime;
 	private Ringtone r;
 	private String uriSong;
 	private boolean tocarAlarme;
@@ -81,8 +81,8 @@ public class MainStopwatchActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				SharedPreferences settings = getSharedPreferences(Settings.PREFS_NAME, 0);
-		        realTime = settings.getInt(Settings.REAL_TIME, 20*60*1000);
-		        fakeTime = settings.getInt(Settings.FAKE_TIME, 20*60*1000);
+		        realTime = settings.getLong(Settings.REAL_TIME, 20*60*1000);
+		        fakeTime = settings.getLong(Settings.FAKE_TIME, 20*60*1000);
 		        uriSong = settings.getString(Settings.URL_SONG, "");
 		        tocarAlarme = settings.getBoolean(Settings.TOCAR_ALARME, false);
 		        r = RingtoneManager.getRingtone(getApplicationContext(), Uri.parse(uriSong));
@@ -131,8 +131,8 @@ public class MainStopwatchActivity extends Activity {
     	outState.putBoolean(IS_RUNNING, isRunning);
     	outState.putBoolean(IS_PLAYING_SOUND, isPlayingSound);
     	outState.putLong(ELAPSED_TIME, elapsedTime);
-    	outState.putInt(FAKE_TIME, fakeTime);
-    	outState.putInt(REAL_TIME, realTime);
+    	outState.putLong(FAKE_TIME, fakeTime);
+    	outState.putLong(REAL_TIME, realTime);
     	outState.putString(URI_SONG, uriSong);
     	outState.putBoolean(TOCAR_ALARME, tocarAlarme);
     }
@@ -144,8 +144,8 @@ public class MainStopwatchActivity extends Activity {
     	isRunning = savedInstanceState.getBoolean(IS_RUNNING);
     	isPlayingSound = savedInstanceState.getBoolean(IS_PLAYING_SOUND);
     	elapsedTime = savedInstanceState.getLong(ELAPSED_TIME);
-    	fakeTime = savedInstanceState.getInt(FAKE_TIME);
-    	realTime = savedInstanceState.getInt(REAL_TIME);
+    	fakeTime = savedInstanceState.getLong(FAKE_TIME);
+    	realTime = savedInstanceState.getLong(REAL_TIME);
     	tocarAlarme = savedInstanceState.getBoolean(TOCAR_ALARME);
     	uriSong = savedInstanceState.getString(URI_SONG);
     	r = RingtoneManager.getRingtone(getApplicationContext(), Uri.parse(uriSong));
@@ -158,13 +158,13 @@ public class MainStopwatchActivity extends Activity {
     }
     
     private void setTimeText(){
-    	int milisecs = (int) (elapsedTime % 1000);
+    	long milisecs = (elapsedTime % 1000);
     	if(isPlayingSound){
 			elapsedTime -= milisecs;
 			milisecs = 0;
 		}
-		int secs = (int) (elapsedTime/1000) % 60;
-		int min = (int) (elapsedTime/(60*1000));
+		long secs = (elapsedTime/1000) % 60;
+		long min = (elapsedTime/(60*1000));
 		TextView milis = (TextView)findViewById(R.id.text_view_mili);
 		TextView seconds = (TextView)findViewById(R.id.text_view_seconds);
 		TextView minutes = (TextView)findViewById(R.id.text_view_minutes);

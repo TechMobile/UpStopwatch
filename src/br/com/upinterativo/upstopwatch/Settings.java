@@ -32,10 +32,10 @@ public class Settings  extends Activity {
 	
 	private GestureDetector gd;
 	
-	public static int realMinutes;
-	public static int fakeMinutes;
-	public static int realSeconds;
-	public static int fakeSeconds;
+	public static long realMinutes;
+	public static long fakeMinutes;
+	public static long realSeconds;
+	public static long fakeSeconds;
 	
 	public static boolean tocarAlarme;
 	
@@ -62,10 +62,10 @@ public class Settings  extends Activity {
         /*Dados armazenados*/
         
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        realMinutes = settings.getInt(REAL_MINUTES, 1);
-        fakeMinutes = settings.getInt(FAKE_MINUTES, 20);
-        realSeconds = settings.getInt(REAL_SECONDS, 0);
-        fakeSeconds = settings.getInt(FAKE_SECONDS, 0);
+        realMinutes = settings.getLong(REAL_MINUTES, 1);
+        fakeMinutes = settings.getLong(FAKE_MINUTES, 20);
+        realSeconds = settings.getLong(REAL_SECONDS, 0);
+        fakeSeconds = settings.getLong(FAKE_SECONDS, 0);
         
         urlSong = settings.getString(URL_SONG, "");
         nameSong = settings.getString(NAME_SONG, "");
@@ -75,7 +75,7 @@ public class Settings  extends Activity {
         
         gd = new GestureDetector(this, simpleGestureDetector);
         
-        /*Botoes de interacao com o tempo real*/
+        /*Botoes de longeracao com o tempo real*/
         
          btPlusMinRealTime = (Button)findViewById(R.id.btPlusMinRealTime);
          btLessMinRealTime = (Button)findViewById(R.id.btLessMinRealTime);
@@ -83,7 +83,7 @@ public class Settings  extends Activity {
          btLessSecRealTime = (Button)findViewById(R.id.btLessSecRealTime);
          
         
-        /*Botoes de interacao com o tempo falso*/
+        /*Botoes de longeracao com o tempo falso*/
         
         btPlusMinFakeTime = (Button)findViewById(R.id.btPlusMinFakeTime);
         btLessMinFakeTime = (Button)findViewById(R.id.btLessMinFakeTime);
@@ -176,7 +176,7 @@ public class Settings  extends Activity {
 			@Override
 			public void onClick(View v) {
 				TextView valueMinRealTime = (TextView)findViewById(R.id.vl_realMinTime);
-				int value = Integer.parseInt(valueMinRealTime.getText().toString());
+				long value = Long.parseLong(valueMinRealTime.getText().toString());
 				value++;
 				String newValue = "";
 				
@@ -192,11 +192,11 @@ public class Settings  extends Activity {
 					
 					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 					SharedPreferences.Editor editor = settings.edit();
-					editor.putInt(REAL_MINUTES, value);
+					editor.putLong(REAL_MINUTES, value);
 					
 					/*DEFINE TEMPO REAL*/
-					int secondsReal = settings.getInt(REAL_SECONDS, 0);
-					editor.putInt(REAL_TIME, (value * 60000) + (secondsReal * 1000));
+					long secondsReal = settings.getLong(REAL_SECONDS, 0);
+					editor.putLong(REAL_TIME, (value * 60000) + (secondsReal * 1000));
 					
 					editor.commit();
 				}
@@ -210,7 +210,7 @@ public class Settings  extends Activity {
 			@Override
 			public void onClick(View v) {
 				TextView valueSecRealTime = (TextView)findViewById(R.id.vl_realSecTime);
-				int value = Integer.parseInt(valueSecRealTime.getText().toString());
+				long value = Long.parseLong(valueSecRealTime.getText().toString());
 				value++;
 				String newValue = "";
 				
@@ -226,11 +226,11 @@ public class Settings  extends Activity {
 					
 					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 					SharedPreferences.Editor editor = settings.edit();
-					editor.putInt(REAL_SECONDS, value);
+					editor.putLong(REAL_SECONDS, value);
 					
 					/*DEFINE TEMPO REAL*/
-					int minutesReal = settings.getInt(REAL_MINUTES, 0);
-					editor.putInt(REAL_TIME, (value * 1000) + (minutesReal * 60000));
+					long minutesReal = settings.getLong(REAL_MINUTES, 0);
+					editor.putLong(REAL_TIME, (value * 1000) + (minutesReal * 60000));
 					
 					editor.commit();
 				}
@@ -244,7 +244,7 @@ public class Settings  extends Activity {
 			@Override
 			public void onClick(View v) {
 				TextView valueMinRealTime = (TextView)findViewById(R.id.vl_realMinTime);
-				int value = Integer.parseInt(valueMinRealTime.getText().toString());
+				long value = Long.parseLong(valueMinRealTime.getText().toString());
 				value--;
 				String newValue = "";
 				
@@ -260,11 +260,11 @@ public class Settings  extends Activity {
 					
 					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 					SharedPreferences.Editor editor = settings.edit();
-					editor.putInt(REAL_MINUTES, value);
+					editor.putLong(REAL_MINUTES, value);
 					
 					/*DEFINE TEMPO REAL*/
-					int secondsReal = settings.getInt(REAL_SECONDS, 0);
-					editor.putInt(REAL_TIME, (value * 60000) + (secondsReal * 1000));
+					long secondsReal = settings.getLong(REAL_SECONDS, 0);
+					editor.putLong(REAL_TIME, (value * 60000) + (secondsReal * 1000));
 					
 					editor.commit();
 				}
@@ -278,7 +278,7 @@ public class Settings  extends Activity {
 			@Override
 			public void onClick(View v) {
 				TextView valueSecRealTime = (TextView)findViewById(R.id.vl_realSecTime);
-				int value = Integer.parseInt(valueSecRealTime.getText().toString());
+				long value = Long.parseLong(valueSecRealTime.getText().toString());
 				value--;
 				String newValue = "";
 				
@@ -294,11 +294,11 @@ public class Settings  extends Activity {
 					
 					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 					SharedPreferences.Editor editor = settings.edit();
-					editor.putInt(REAL_SECONDS, value);
+					editor.putLong(REAL_SECONDS, value);
 					
 					/*DEFINE TEMPO REAL*/
-					int minutesReal = settings.getInt(REAL_MINUTES, 0);
-					editor.putInt(REAL_TIME, (value * 1000) + (minutesReal * 60000));
+					long minutesReal = settings.getLong(REAL_MINUTES, 0);
+					editor.putLong(REAL_TIME, (value * 1000) + (minutesReal * 60000));
 					
 					editor.commit();
 				}
@@ -312,7 +312,7 @@ public class Settings  extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				TextView valueMinFakeTime = (TextView)findViewById(R.id.vl_fakeMinTime);
-				int value = Integer.parseInt(valueMinFakeTime.getText().toString());
+				long value = Long.parseLong(valueMinFakeTime.getText().toString());
 				value++;
 				String newValue = "";
 				
@@ -328,11 +328,11 @@ public class Settings  extends Activity {
 					
 					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 					SharedPreferences.Editor editor = settings.edit();
-					editor.putInt(FAKE_MINUTES, value);
+					editor.putLong(FAKE_MINUTES, value);
 					
 					/*DEFINE TEMPO FALSO*/
-					int secondsFake = settings.getInt(FAKE_SECONDS, 0);
-					editor.putInt(FAKE_TIME, (value * 60000) + (secondsFake * 1000));
+					long secondsFake = settings.getLong(FAKE_SECONDS, 0);
+					editor.putLong(FAKE_TIME, (value * 60000) + (secondsFake * 1000));
 					
 					editor.commit();
 				}
@@ -346,7 +346,7 @@ public class Settings  extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				TextView valueSecFakeTime = (TextView)findViewById(R.id.vl_fakeSecTime);
-				int value = Integer.parseInt(valueSecFakeTime.getText().toString());
+				long value = Long.parseLong(valueSecFakeTime.getText().toString());
 				value++;
 				String newValue = "";
 				
@@ -362,11 +362,11 @@ public class Settings  extends Activity {
 					
 					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 					SharedPreferences.Editor editor = settings.edit();
-					editor.putInt(FAKE_SECONDS, value);
+					editor.putLong(FAKE_SECONDS, value);
 					
 					/*DEFINE TEMPO FALSO*/
-					int minutesFake = settings.getInt(FAKE_MINUTES, 0);
-					editor.putInt(FAKE_TIME, (value * 1000) + (minutesFake * 60000));
+					long minutesFake = settings.getLong(FAKE_MINUTES, 0);
+					editor.putLong(FAKE_TIME, (value * 1000) + (minutesFake * 60000));
 					
 					editor.commit();
 				}
@@ -380,7 +380,7 @@ public class Settings  extends Activity {
 			@Override
 			public void onClick(View v) {
 				TextView valueMinFakeTime = (TextView)findViewById(R.id.vl_fakeMinTime);
-				int value = Integer.parseInt(valueMinFakeTime.getText().toString());
+				long value = Long.parseLong(valueMinFakeTime.getText().toString());
 				value--;
 				String newValue = "";
 				
@@ -396,11 +396,11 @@ public class Settings  extends Activity {
 					
 					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 					SharedPreferences.Editor editor = settings.edit();
-					editor.putInt(FAKE_MINUTES, value);
+					editor.putLong(FAKE_MINUTES, value);
 					
 					/*DEFINE TEMPO FALSO*/
-					int secondsFake = settings.getInt(FAKE_SECONDS, 0);
-					editor.putInt(FAKE_TIME, (value * 60000) + (secondsFake * 1000));
+					long secondsFake = settings.getLong(FAKE_SECONDS, 0);
+					editor.putLong(FAKE_TIME, (value * 60000) + (secondsFake * 1000));
 					
 					editor.commit();
 				}
@@ -414,7 +414,7 @@ public class Settings  extends Activity {
 			@Override
 			public void onClick(View v) {
 				TextView valueSecFakeTime = (TextView)findViewById(R.id.vl_fakeSecTime);
-				int value = Integer.parseInt(valueSecFakeTime.getText().toString());
+				long value = Long.parseLong(valueSecFakeTime.getText().toString());
 				value--;
 				String newValue = "";
 				
@@ -430,11 +430,11 @@ public class Settings  extends Activity {
 					
 					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 					SharedPreferences.Editor editor = settings.edit();
-					editor.putInt(FAKE_SECONDS, value);
+					editor.putLong(FAKE_SECONDS, value);
 					
 					/*DEFINE TEMPO FALSO*/
-					int minutesFake = settings.getInt(FAKE_MINUTES, 0);
-					editor.putInt(FAKE_TIME, (value * 1000) + (minutesFake * 60000));
+					long minutesFake = settings.getLong(FAKE_MINUTES, 0);
+					editor.putLong(FAKE_TIME, (value * 1000) + (minutesFake * 60000));
 					
 					editor.commit();
 				}
@@ -523,11 +523,11 @@ public class Settings  extends Activity {
     	/*Swype para troca de tela (Abre a tela principal)*/
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
-			int dist = (int) (e1.getX() - e2.getX());
+			long dist = (long) (e1.getX() - e2.getX());
 			if(velocityX < - 5000 && dist > 200) {
 				SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-				realMinutes = settings.getInt(REAL_MINUTES, 0);
-				fakeMinutes = settings.getInt(FAKE_MINUTES, 0);
+				realMinutes = settings.getLong(REAL_MINUTES, 0);
+				fakeMinutes = settings.getLong(FAKE_MINUTES, 0);
 				
 				finish();
 			}

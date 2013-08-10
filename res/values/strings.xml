@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">UpStopwatch</string>
+    <string name="app_name">Up Timer</string>
     <string name="menu_settings">Settings</string>
     <string name="label_realTime">Tempo Real</string>
     <string name="label_fakeTime">Tempo Falso</string>
