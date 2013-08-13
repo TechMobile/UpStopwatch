@@ -3,6 +3,8 @@ package br.com.upinterativo.upstopwatch;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -42,6 +44,8 @@ public class Settings  extends Activity {
 	public static String urlSong;
 	public static String nameSong;
 	
+	private SensorManager mSensorManager;
+	private ShakeEventListener mSensorListener;
 	
 	public static final String PREFS_NAME = "DataSettings";
 	public static final String REAL_MINUTES = "realMinutes";
@@ -70,6 +74,9 @@ public class Settings  extends Activity {
         urlSong = settings.getString(URL_SONG, "");
         nameSong = settings.getString(NAME_SONG, "");
         tocarAlarme = settings.getBoolean(TOCAR_ALARME, false);
+        
+        //Prepara sensor de movimento
+        prepareSensors();
         
         /*Evento para tratativa de gestos*/
         
@@ -535,4 +542,29 @@ public class Settings  extends Activity {
 			return false;
 		}
     };
+    
+    private void prepareSensors(){
+    	mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        mSensorListener = new ShakeEventListener();   
+
+        mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
+        	public void onShake() {
+        		finish();
+        	}
+        });
+    }
+    
+    @Override
+    protected void onResume() {
+    	super.onResume();
+    	mSensorManager.registerListener(mSensorListener,
+          mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+          SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    protected void onPause() {
+    	mSensorManager.unregisterListener(mSensorListener);
+    	super.onStop();
+    }
 }

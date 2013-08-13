@@ -8,6 +8,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -21,7 +23,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainStopwatchActivity extends Activity {
-
 	protected static String IS_RUNNING = "isRunning";
 	protected static String IS_PLAYING_SOUND = "isPlayingSound";
 	protected static String ELAPSED_TIME = "elapsedTime";
@@ -50,6 +51,9 @@ public class MainStopwatchActivity extends Activity {
 	private String uriSong;
 	private boolean tocarAlarme;
 	
+	private SensorManager mSensorManager;
+	private ShakeEventListener mSensorListener;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,95 +68,9 @@ public class MainStopwatchActivity extends Activity {
         startTime = 0;
         isPlayingSound = false;
         
-        timer.scheduleAtFixedRate(new TimerTask() {
-				
-			@Override
-			public void run() {
-				if(isRunning){
-					runOnUiThread(new Runnable() {
-						
-						@Override
-						public void run() {
-							if(isRunning){
-								Date date = new Date();
-								long timeNow = date.getTime();
-								if(!isPaused)
-									elapsedTime = (timeNow - startTime)*fakeTime/realTime - pausedTime;
-								else {
-									pausedTime += (timeNow - lastPaused)*fakeTime/realTime;
-									lastPaused = timeNow;
-								}
-								setTimeText();
-								if(elapsedTime >= fakeTime){
-									isRunning = false;
-									if(tocarAlarme){
-										r.play();
-									}
-									isPlayingSound = true;
-								}
-							}
-						}
-					});
-				}
-				
-			}
-		}, 0, 10);
-        layoutButton = (LinearLayout)findViewById(R.id.watchstop_circle_button);
-        layoutButton.setOnClickListener(new View.OnClickListener() {
-			
-			@SuppressLint("NewApi")
-			@Override
-			public void onClick(View v) {
-				SharedPreferences settings = getSharedPreferences(Settings.PREFS_NAME, 0);
-		        realTime = settings.getLong(Settings.REAL_TIME, 20*60*1000);
-		        fakeTime = settings.getLong(Settings.FAKE_TIME, 20*60*1000);
-		        uriSong = settings.getString(Settings.URL_SONG, "");
-		        tocarAlarme = settings.getBoolean(Settings.TOCAR_ALARME, false);
-		        r = RingtoneManager.getRingtone(getApplicationContext(), Uri.parse(uriSong));
-		        if(!isPlayingSound){
-		        	Date date = new Date();
-					if(!isRunning)
-					{
-						layoutButton.setBackgroundResource(R.drawable.watchstop_background_green);
-						startTime = date.getTime();
-						pausedTime = 0;
-						isRunning = true;
-					} else {
-						layoutButton.setBackgroundResource(R.drawable.watchstop_background);
-						lastPaused = date.getTime();
-						isPaused = isPaused ? false : true;
-					}
-		        } else {
-		        	if(tocarAlarme)
-		        		r.stop();
-		        	isPlayingSound = false;
-		        	elapsedTime = 0;
-		        	pausedTime = 0;
-		        	setTimeText();
-		        	layoutButton.setBackgroundResource(R.drawable.watchstop_background);
-		        }
-			}
-		});
-        
-        layoutButton.setOnLongClickListener(new View.OnLongClickListener() {
-			
-			@Override
-			public boolean onLongClick(View v) {
-				if(isPaused){
-					isRunning = isPaused = false;
-					elapsedTime = 0;
-					pausedTime = 0;
-					TextView milis = (TextView)findViewById(R.id.text_view_mili);
-					TextView seconds = (TextView)findViewById(R.id.text_view_seconds);
-					TextView minutes = (TextView)findViewById(R.id.text_view_minutes);
-					milis.setText(R.string.init_miliseconds);
-					seconds.setText(R.string.init_second);
-					minutes.setText(R.string.init_minute);
-					return true;
-				}
-				return false;
-			}
-		});
+        prepareTimer();
+        prepareButtons();
+        prepareSensors();
     }
 
     @Override
@@ -221,8 +139,43 @@ public class MainStopwatchActivity extends Activity {
     
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-    	// TODO Auto-generated method stub
     	return gd.onTouchEvent(event);
+    }
+    
+    private void prepareTimer(){
+    	timer.scheduleAtFixedRate(new TimerTask() {
+			
+			@Override
+			public void run() {
+				if(isRunning){
+					runOnUiThread(new Runnable() {
+						
+						@Override
+						public void run() {
+							if(isRunning){
+								Date date = new Date();
+								long timeNow = date.getTime();
+								if(!isPaused)
+									elapsedTime = (timeNow - startTime)*fakeTime/realTime - pausedTime;
+								else {
+									pausedTime += (timeNow - lastPaused)*fakeTime/realTime;
+									lastPaused = timeNow;
+								}
+								setTimeText();
+								if(elapsedTime >= fakeTime){
+									isRunning = false;
+									if(tocarAlarme){
+										r.play();
+									}
+									isPlayingSound = true;
+								}
+							}
+						}
+					});
+				}
+				
+			}
+		}, 0, 10);
     }
 
     SimpleOnGestureListener simpleGestureDetector = new SimpleOnGestureListener(){
@@ -236,4 +189,93 @@ public class MainStopwatchActivity extends Activity {
 			return false;
 		}
     };
+    
+    private void prepareButtons(){
+    	layoutButton = (LinearLayout)findViewById(R.id.watchstop_circle_button);
+        layoutButton.setOnClickListener(new View.OnClickListener() {
+			
+			@SuppressLint("NewApi")
+			@Override
+			public void onClick(View v) {
+				SharedPreferences settings = getSharedPreferences(Settings.PREFS_NAME, 0);
+		        realTime = settings.getLong(Settings.REAL_TIME, 20*60*1000);
+		        fakeTime = settings.getLong(Settings.FAKE_TIME, 20*60*1000);
+		        uriSong = settings.getString(Settings.URL_SONG, "");
+		        tocarAlarme = settings.getBoolean(Settings.TOCAR_ALARME, false);
+		        r = RingtoneManager.getRingtone(getApplicationContext(), Uri.parse(uriSong));
+		        if(!isPlayingSound){
+		        	Date date = new Date();
+					if(!isRunning)
+					{
+						layoutButton.setBackgroundResource(R.drawable.watchstop_background_green);
+						startTime = date.getTime();
+						pausedTime = 0;
+						isRunning = true;
+					} else {
+						if( !isPaused ){
+							layoutButton.setBackgroundResource(R.drawable.watchstop_background);
+						} else {
+							layoutButton.setBackgroundResource(R.drawable.watchstop_background_green);
+						}
+						lastPaused = date.getTime();
+						isPaused = isPaused ? false : true;
+					}
+		        } else {
+		        	if(tocarAlarme)
+		        		r.stop();
+		        	isPlayingSound = false;
+		        	elapsedTime = 0;
+		        	pausedTime = 0;
+		        	setTimeText();
+		        	layoutButton.setBackgroundResource(R.drawable.watchstop_background);
+		        }
+			}
+		});
+        
+        layoutButton.setOnLongClickListener(new View.OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				if(isPaused){
+					isRunning = isPaused = false;
+					elapsedTime = 0;
+					pausedTime = 0;
+					TextView milis = (TextView)findViewById(R.id.text_view_mili);
+					TextView seconds = (TextView)findViewById(R.id.text_view_seconds);
+					TextView minutes = (TextView)findViewById(R.id.text_view_minutes);
+					milis.setText(R.string.init_miliseconds);
+					seconds.setText(R.string.init_second);
+					minutes.setText(R.string.init_minute);
+					return true;
+				}
+				return false;
+			}
+		});
+    }
+    
+    private void prepareSensors(){
+    	mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        mSensorListener = new ShakeEventListener();   
+
+        mSensorListener.setOnShakeListener(new ShakeEventListener.OnShakeListener() {
+        	public void onShake() {
+        		if(!isRunning)
+        			startActivity(new Intent(getApplicationContext(), Settings.class));
+        	}
+        });
+    }
+    
+    @Override
+    protected void onResume() {
+    	super.onResume();
+    	mSensorManager.registerListener(mSensorListener,
+          mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+          SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    protected void onPause() {
+    	mSensorManager.unregisterListener(mSensorListener);
+    	super.onStop();
+    }
 }
